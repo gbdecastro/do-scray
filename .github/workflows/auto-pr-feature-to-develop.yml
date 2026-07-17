@@ -1,0 +1,49 @@
+name: Auto PR feature to develop
+
+on:
+  push:
+    branches:
+      - "feature/**"
+
+concurrency:
+  group: auto-pr-feature-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Create or reuse PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          branch="${GITHUB_REF_NAME}"
+          existing_prs="$(gh pr list \
+            --head "$branch" \
+            --base develop \
+            --state open \
+            --json number \
+            --jq 'length')"
+
+          if [ "$existing_prs" -gt 0 ]; then
+            echo "An open PR from ${branch} to develop already exists."
+            exit 0
+          fi
+
+          gh pr create \
+            --base develop \
+            --head "$branch" \
+            --title "Merge ${branch} into develop" \
+            --body "Automated PR created from a push to \`${branch}\`."
