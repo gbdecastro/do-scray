@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -18,7 +19,8 @@ import diario_oficial.dashboard as dashboard  # noqa: E402
 
 class DashboardTest(unittest.TestCase):
     def test_format_dt_and_read_tail(self) -> None:
-        self.assertEqual(dashboard.format_dt(0), "1969-12-31 21:00:00")
+        expected = datetime.fromtimestamp(0).strftime("%Y-%m-%d %H:%M:%S")
+        self.assertEqual(dashboard.format_dt(0), expected)
 
         with tempfile.TemporaryDirectory() as tmpdir:
             path = Path(tmpdir) / "log.txt"
