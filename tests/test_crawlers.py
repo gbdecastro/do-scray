@@ -59,6 +59,15 @@ class BoituvaCrawlerTest(unittest.TestCase):
             ).guess_pdf_name("https://example.com/download", "12"),
             "edicao_12.pdf",
         )
+        self.assertEqual(
+            BoituvaCrawler(
+                session=FakeSession(),
+                output_dir=Path("."),
+                state_store=MemoryStateStore(),
+                notifier=MemoryNotifier(),
+            ).guess_pdf_name("https://example.com/edicao_12.pdf", "12"),
+            "edicao_12.pdf",
+        )
 
     def test_extract_links_and_pagination(self) -> None:
         crawler = BoituvaCrawler(

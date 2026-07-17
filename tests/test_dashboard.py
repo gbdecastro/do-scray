@@ -67,6 +67,11 @@ class DashboardTest(unittest.TestCase):
                 encoding="utf-8",
             )
             (state_dir / "invalid.json").write_text("not-json", encoding="utf-8")
+            (state_dir / "editions_list.json").write_text(
+                json.dumps({"updated_at": "2024-01-01", "editions": []}),
+                encoding="utf-8",
+            )
+            (state_dir / "plain_list.json").write_text(json.dumps([1, 2, 3]), encoding="utf-8")
 
             with patch.object(dashboard, "LOG_DIR", log_dir), patch.object(
                 dashboard, "STATE_DIR", state_dir
@@ -77,9 +82,10 @@ class DashboardTest(unittest.TestCase):
 
         self.assertEqual([item.name for item in log_files], ["b.log", "a.log"])
         self.assertEqual([city for city, _ in pdf_files], ["City", "Sem cidade"])
-        self.assertEqual(state_rows[0]["arquivo"], "valid.json")
-        self.assertEqual(state_rows[0]["matches"], "1")
-        self.assertEqual(state_rows[0]["sem_match"], "1")
+        self.assertEqual(len(state_rows), 3)
+        valid_row = next(row for row in state_rows if row["arquivo"] == "valid.json")
+        self.assertEqual(valid_row["matches"], "1")
+        self.assertEqual(valid_row["sem_match"], "1")
 
     def test_empty_dashboard_sections(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

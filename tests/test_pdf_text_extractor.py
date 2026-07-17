@@ -83,6 +83,12 @@ class PdfTextExtractorTest(unittest.TestCase):
         self.assertIn("Page 1 text", text)
         self.assertIn("OCR text", text)
 
+    def test_extract_with_pymupdf_open_failure(self) -> None:
+        fake_module = types.SimpleNamespace(open=lambda pdf_path: (_ for _ in ()).throw(RuntimeError("boom")))
+
+        with patch.dict(sys.modules, {"pymupdf": fake_module}):
+            self.assertEqual(extractor._extract_with_pymupdf(Path("file.pdf")), "")
+
     def test_extract_with_pdftotext_branches(self) -> None:
         with patch.object(extractor.shutil, "which", return_value=None):
             self.assertEqual(extractor._extract_with_pdftotext(Path("file.pdf")), "")

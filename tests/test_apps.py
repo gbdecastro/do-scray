@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 import tempfile
 import unittest
+import importlib
 from pathlib import Path
 from unittest.mock import patch
 
@@ -91,3 +92,20 @@ class AppsTest(unittest.TestCase):
             self.assertEqual(run_crawlers.main(), 3)
 
         self.assertEqual(run_job.call_count, 2)
+
+    def test_entrypoint_path_injection_can_run(self) -> None:
+        root_dir = Path(__file__).resolve().parents[1]
+        original_sys_path = list(sys.path)
+
+        try:
+            sys.path = [item for item in sys.path if Path(item).resolve() != root_dir]
+
+            import diario_oficial.apps.boituva as boituva_module
+            import diario_oficial.apps.sorocaba as sorocaba_module
+
+            importlib.reload(boituva_module)
+            importlib.reload(sorocaba_module)
+
+            self.assertIn(str(root_dir), sys.path)
+        finally:
+            sys.path = original_sys_path
