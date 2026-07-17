@@ -1,0 +1,64 @@
+name: Auto release from develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types:
+      - closed
+
+concurrency:
+  group: auto-release-develop
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  create-release-pr:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Create release branch
+        run: |
+          set -euo pipefail
+
+          short_sha="$(git rev-parse --short=7 HEAD)"
+          timestamp="$(date -u +'%Y.%m.%d-%H%M%S')"
+          release_branch="release/v${timestamp}-${short_sha}"
+
+          git checkout -b "$release_branch"
+          git push origin "$release_branch"
+
+          echo "RELEASE_BRANCH=$release_branch" >> "$GITHUB_ENV"
+
+      - name: Open release PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          existing_prs="$(gh pr list \
+            --head "$RELEASE_BRANCH" \
+            --base main \
+            --state open \
+            --json number \
+            --jq 'length')"
+
+          if [ "$existing_prs" -gt 0 ]; then
+            echo "An open PR from ${RELEASE_BRANCH} to main already exists."
+            exit 0
+          fi
+
+          gh pr create \
+            --base main \
+            --head "$RELEASE_BRANCH" \
+            --title "Release ${RELEASE_BRANCH}" \
+            --body "Automated release PR created after merging into \`develop\`."
