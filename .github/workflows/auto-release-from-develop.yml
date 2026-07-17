@@ -53,6 +53,14 @@ jobs:
 
           echo "RELEASE_BRANCH=$release_branch" >> "$GITHUB_ENV"
 
+      - name: Delete merged feature branch
+        if: startsWith(github.event.pull_request.head.ref, 'feature/') && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          set -euo pipefail
+
+          feature_branch="${{ github.event.pull_request.head.ref }}"
+          git push origin --delete "$feature_branch"
+
       - name: Open release PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
