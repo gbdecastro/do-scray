@@ -1,5 +1,7 @@
 # Diário Oficial Scraper
 
+[![CI Coverage](https://github.com/gbdecastro/do-scray/actions/workflows/ci-coverage.yml/badge.svg?branch=main)](https://github.com/gbdecastro/do-scray/actions/workflows/ci-coverage.yml)
+
 Crawler em Python para monitorar diários oficiais, extrair texto de PDFs, procurar termos de interesse e enviar notificações no Telegram.
 
 ## O que ele faz
