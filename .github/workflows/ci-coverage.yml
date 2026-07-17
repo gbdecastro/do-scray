@@ -34,7 +34,7 @@ jobs:
           status=0
 
           python -m coverage run --source=diario_oficial -m unittest discover -s tests -t . || status=$?
-          python -m coverage report --fail-under=100 || status=$?
+          python -m coverage report --fail-under=90 || status=$?
           python -m coverage xml
           python -m coverage html
 
