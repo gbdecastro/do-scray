@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 import requests
 
-from diario_oficial.crawlers import BoituvaCrawler, SorocabaCrawler
+from diario_oficial.crawlers import BoituvaCrawler, IndaiatubaCrawler, SorocabaCrawler
 from diario_oficial.models import EditionLink, EditionResult
 from tests.support import FakeResponse, FakeSession, MemoryNotifier, MemoryStateStore
 
@@ -257,6 +257,134 @@ class SorocabaCrawlerTest(unittest.TestCase):
 
         links = crawler.crawl_all_edition_links("https://example.com/start")
         self.assertEqual([item.number for item in links], ["124", "123"])
+
+
+class IndaiatubaCrawlerTest(unittest.TestCase):
+    def test_parsers_and_helpers(self) -> None:
+        from diario_oficial.crawlers.indaiatuba import AnchorParser
+
+        anchor_parser = AnchorParser()
+        anchor_parser.feed('<a href="/link">Hello <b>World</b></a>')
+        self.assertEqual(anchor_parser.anchors, [("Hello World", "/link")])
+
+        self.assertEqual(IndaiatubaCrawler.normalize_text("ÁBÇ"), "ábç")
+        self.assertEqual(IndaiatubaCrawler.safe_filename("a/b c"), "a_b_c")
+        self.assertEqual(IndaiatubaCrawler.safe_filename("???"), "arquivo")
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "out"
+            response = FakeResponse(chunks=[b"a", b"b"])
+            session = FakeSession({("https://example.com/file.pdf", True): response})
+            crawler = IndaiatubaCrawler(
+                session=session,
+                output_dir=output_dir,
+                state_store=MemoryStateStore(),
+                notifier=MemoryNotifier(),
+            )
+
+            destination = Path(tmpdir) / "download.pdf"
+            crawler.download_file("https://example.com/file.pdf", destination)
+            self.assertEqual(destination.read_bytes(), b"ab")
+
+    def test_extract_links_and_crawl(self) -> None:
+        crawler = IndaiatubaCrawler(
+            session=FakeSession(
+                {
+                    ("https://example.com/start", False): FakeResponse(
+                        text="""
+                        <a href="/d1.pdf">Imprensa Oficial Edição N 123 - 01/02/2024</a>
+                        <a href="/d2.pdf">Imprensa Oficial Edição N 124 - 02/02/2024</a>
+                        <a href="/d3.pdf">Sem edição</a>
+                        <a href="/not-pdf">Ignore</a>
+                        """
+                    )
+                }
+            ),
+            output_dir=Path("."),
+            state_store=MemoryStateStore(),
+            notifier=MemoryNotifier(),
+        )
+
+        html = """
+        <a href="/d1.pdf">Imprensa Oficial Edição N 123 - 01/02/2024</a>
+        <a href="/d2.pdf">Imprensa Oficial Edição N 124 - 02/02/2024</a>
+        <a href="/d3.pdf">Sem edição</a>
+        <a href="/not-pdf">Ignore</a>
+        """
+        editions = crawler.extract_edition_links(html, "https://example.com/base/")
+        self.assertEqual([item.number for item in editions], ["123", "124"])
+        self.assertEqual(editions[0].url, "https://example.com/d1.pdf")
+
+        links = crawler.crawl_all_edition_links("https://example.com/start")
+        self.assertEqual([item.number for item in links], ["124", "123"])
+
+    def test_process_and_run(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_dir = Path(tmpdir) / "out"
+            state_store = MemoryStateStore(initial_state={"1": {"status": "match"}})
+            notifier = MemoryNotifier()
+            crawler = IndaiatubaCrawler(
+                session=FakeSession(),
+                output_dir=output_dir,
+                state_store=state_store,
+                notifier=notifier,
+                target_terms=("term",),
+            )
+
+            def fake_download(url: str, destination: Path) -> None:
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes(b"pdf")
+
+            edition = EditionLink(number="2", date="01/02/2024", text="edition 2", url="https://example.com/2.pdf")
+            with patch.object(IndaiatubaCrawler, "download_file", side_effect=fake_download), patch(
+                "diario_oficial.crawlers.indaiatuba.extract_pdf_text", return_value="contains term"
+            ):
+                result = crawler.process_edition(edition)
+
+            self.assertEqual(result.status, "match")
+            self.assertTrue(result.saved_pdf and result.saved_pdf.exists())
+
+            with patch.object(IndaiatubaCrawler, "download_file", side_effect=fake_download), patch(
+                "diario_oficial.crawlers.indaiatuba.extract_pdf_text", return_value="nothing"
+            ):
+                result = crawler.process_edition(
+                    EditionLink(number="3", date="", text="edition 3", url="https://example.com/3.pdf")
+                )
+
+            self.assertEqual(result.status, "no_match")
+            self.assertIsNone(result.saved_pdf)
+
+            editions = [
+                EditionLink(number="1", date="", text="skip", url="https://example.com/1.pdf"),
+                EditionLink(number="2", date="", text="request", url="https://example.com/2.pdf"),
+                EditionLink(number="3", date="", text="runtime", url="https://example.com/3.pdf"),
+                EditionLink(number="4", date="", text="ok", url="https://example.com/4.pdf"),
+            ]
+
+            with patch.object(crawler, "crawl_all_edition_links", return_value=editions), patch.object(
+                crawler,
+                "process_edition",
+                side_effect=[
+                    requests.RequestException("boom"),
+                    RuntimeError("boom"),
+                    EditionResult(
+                        number="4",
+                        date="",
+                        url="https://example.com/4.pdf",
+                        source_name="Indaiatuba",
+                        status="no_match",
+                        matched_terms=[],
+                        saved_pdf=None,
+                        checked_at="2024-02-03T10:00:00",
+                    ),
+                ],
+            ):
+                summary = crawler.run(force=False)
+
+            self.assertEqual(summary, {"processed": 1, "skipped": 1, "match": 0, "no_match": 1})
+            self.assertEqual(len(notifier.notifications), 1)
+            self.assertEqual(len(state_store.saved_payloads), 1)
+            self.assertIn("4", state_store.saved_payloads[0])
 
     def test_process_and_run(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:

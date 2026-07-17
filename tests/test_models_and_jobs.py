@@ -19,7 +19,7 @@ class ModelsAndJobsTest(unittest.TestCase):
         self.assertEqual(job.name, "demo")
         self.assertEqual(job.script, Path("demo.py"))
 
-        self.assertEqual([item.name for item in CRAWLER_JOBS], ["boituva", "sorocaba"])
+        self.assertEqual([item.name for item in CRAWLER_JOBS], ["boituva", "indaiatuba", "sorocaba"])
 
         link = EditionLink(number="1", date="2024-01-01", text="title", url="https://example.com")
         result = EditionResult(

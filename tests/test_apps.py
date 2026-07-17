@@ -7,9 +7,9 @@ import importlib
 from pathlib import Path
 from unittest.mock import patch
 
-from diario_oficial.apps import boituva, run_crawlers, sorocaba
+from diario_oficial.apps import boituva, indaiatuba, run_crawlers, sorocaba
 from diario_oficial.jobs import CrawlerJob
-from diario_oficial.crawlers import BoituvaCrawler, SorocabaCrawler
+from diario_oficial.crawlers import BoituvaCrawler, IndaiatubaCrawler, SorocabaCrawler
 
 
 class AppsTest(unittest.TestCase):
@@ -59,6 +59,30 @@ class AppsTest(unittest.TestCase):
         self.assertIs(captured["args"][0], SorocabaCrawler)
         self.assertEqual(captured["kwargs"]["crawler_kwargs"]["target_terms"], ("gamma",))
 
+    def test_indaiatuba_parse_args_and_main(self) -> None:
+        with patch.object(sys, "argv", ["indaiatuba"]):
+            args = indaiatuba.parse_args()
+            self.assertEqual(args.url, indaiatuba.BASE_URL)
+            self.assertEqual(args.term, [])
+            self.assertFalse(args.force)
+
+        captured = {}
+
+        def fake_run_crawler(*args, **kwargs):
+            captured["args"] = args
+            captured["kwargs"] = kwargs
+            return 0
+
+        with patch.object(indaiatuba, "run_crawler", side_effect=fake_run_crawler), patch.object(
+            sys,
+            "argv",
+            ["indaiatuba", "--term", "delta"],
+        ):
+            self.assertEqual(indaiatuba.main(), 0)
+
+        self.assertIs(captured["args"][0], IndaiatubaCrawler)
+        self.assertEqual(captured["kwargs"]["crawler_kwargs"]["target_terms"], ("delta",))
+
     def test_run_crawlers_setup_logging_run_job_and_main(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             log_dir = Path(tmpdir) / "logs"
@@ -101,9 +125,11 @@ class AppsTest(unittest.TestCase):
             sys.path = [item for item in sys.path if Path(item).resolve() != root_dir]
 
             import diario_oficial.apps.boituva as boituva_module
+            import diario_oficial.apps.indaiatuba as indaiatuba_module
             import diario_oficial.apps.sorocaba as sorocaba_module
 
             importlib.reload(boituva_module)
+            importlib.reload(indaiatuba_module)
             importlib.reload(sorocaba_module)
 
             self.assertIn(str(root_dir), sys.path)
