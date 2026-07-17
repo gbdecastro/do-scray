@@ -16,7 +16,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  create-release-pr:
+  build_and_test:
+    name: Build and Test
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
@@ -27,7 +28,55 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Build application image
+        run: docker compose build crawler
+
+      - name: Set up Python for tests
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-test.txt
+
+      - name: Run tests with coverage
+        run: |
+          set -uo pipefail
+          status=0
+
+          python -m coverage run --source=diario_oficial -m unittest discover -s tests -t . || status=$?
+          python -m coverage report --fail-under=90 || status=$?
+          python -m coverage xml
+          python -m coverage html
+
+          exit "$status"
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-release-from-develop
+          path: |
+            coverage.xml
+            htmlcov/
+          if-no-files-found: warn
+
+  create_release_branch:
+    name: Create Release Branch
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    outputs:
+      release_branch: ${{ steps.release.outputs.release_branch }}
+    steps:
+      - name: Check out develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+          fetch-tags: true
+
       - name: Create release branch
+        id: release
         run: |
           set -euo pipefail
 
@@ -51,19 +100,42 @@ jobs:
           git checkout -b "$release_branch"
           git push origin "$release_branch"
 
-          echo "RELEASE_BRANCH=$release_branch" >> "$GITHUB_ENV"
+          echo "release_branch=$release_branch" >> "$GITHUB_OUTPUT"
 
-      - name: Delete merged feature branch
-        if: startsWith(github.event.pull_request.head.ref, 'feature/') && github.event.pull_request.head.repo.full_name == github.repository
+  delete_merged_feature_branch:
+    name: Delete merged feature branch
+    needs: create_release_branch
+    if: startsWith(github.event.pull_request.head.ref, 'feature/') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Delete branch
         run: |
           set -euo pipefail
 
           feature_branch="${{ github.event.pull_request.head.ref }}"
           git push origin --delete "$feature_branch"
 
+  open_release_pr:
+    name: Open Release PR
+    needs: create_release_branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
       - name: Open release PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCH: ${{ needs.create_release_branch.outputs.release_branch }}
         run: |
           set -euo pipefail
 
