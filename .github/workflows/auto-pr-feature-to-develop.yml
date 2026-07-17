@@ -23,6 +23,9 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
 
+      - name: Build application image
+        run: docker compose build crawler
+
       - name: Create or reuse PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

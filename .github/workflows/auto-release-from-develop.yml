@@ -27,6 +27,9 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Build application image
+        run: docker compose build crawler
+
       - name: Create release branch
         run: |
           set -euo pipefail
