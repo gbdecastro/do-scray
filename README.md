@@ -114,3 +114,10 @@ python3 -m diario_oficial.apps.boituva --term "nome" --term "matrícula"
 - O projeto usa PyMuPDF primeiro e cai para `pdftotext` se necessário.
 - O envio ao Telegram roda em background para não travar o processamento dos PDFs.
 - `source_name` é usado para montar mensagens por origem.
+
+
+## Prompt para criação de uma novo crawler
+
+```prompt
+Agora usando o [playbooks](.agents/playbooks/) [skills](.agents/skills/) referentes a criação de um novo crawler. Eu preciso criar um para o example: [indaiatuba.html](diario_oficial/examples/indaiatuba.html). Que pode ser encontrado no site:https://www.indaiatuba.sp.gov.br/comunicacao/imprensa-oficial/edicoes/
+```
