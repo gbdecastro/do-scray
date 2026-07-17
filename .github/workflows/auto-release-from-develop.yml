@@ -25,14 +25,28 @@ jobs:
         with:
           ref: develop
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Create release branch
         run: |
           set -euo pipefail
 
-          short_sha="$(git rev-parse --short=7 HEAD)"
-          timestamp="$(date -u +'%Y.%m.%d-%H%M%S')"
-          release_branch="release/v${timestamp}-${short_sha}"
+          git fetch --tags origin
+
+          latest_tag="$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n1)"
+
+          if [ -z "$latest_tag" ]; then
+            next_version="0.1.0"
+          else
+            version="${latest_tag#v}"
+            major="${version%%.*}"
+            rest="${version#*.}"
+            minor="${rest%%.*}"
+            patch="${version##*.}"
+            next_version="$major.$minor.$((patch + 1))"
+          fi
+
+          release_branch="release/v${next_version}"
 
           git checkout -b "$release_branch"
           git push origin "$release_branch"
