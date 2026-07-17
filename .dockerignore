@@ -1,0 +1,11 @@
+logs/
+state/
+DO/
+DO_Sorocaba/
+__pycache__/
+.venv/
+.git/
+.agents/
+*.pyc
+*.pyo
+*.pyd

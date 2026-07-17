@@ -1,0 +1,38 @@
+services:
+  crawler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: diario-oficial-crawler
+    env_file:
+      - .env
+    environment:
+      TELEGRAM_TOKEN: ${TELEGRAM_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+    volumes:
+      - ./logs:/app/logs
+      - ./state:/app/state
+      - ./DO:/app/DO
+    command: ["/app/run_crawlers.sh"]
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: diario-oficial-dashboard
+    env_file:
+      - .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./logs:/app/logs
+      - ./state:/app/state
+      - ./DO:/app/DO
+    command:
+      [
+        "streamlit",
+        "run",
+        "diario_oficial/dashboard.py",
+        "--server.address=0.0.0.0",
+        "--server.port=8501"
+      ]
