@@ -14,7 +14,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  create-pr:
+  build_and_test:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
       - name: Check out branch
@@ -25,6 +26,47 @@ jobs:
 
       - name: Build application image
         run: docker compose build crawler
+
+      - name: Set up Python for tests
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-test.txt
+
+      - name: Run tests with coverage
+        run: |
+          set -uo pipefail
+          status=0
+
+          python -m coverage run --source=diario_oficial -m unittest discover -s tests -t . || status=$?
+          python -m coverage report --fail-under=100 || status=$?
+          python -m coverage xml
+          python -m coverage html
+
+          exit "$status"
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-feature-to-develop
+          path: |
+            coverage.xml
+            htmlcov/
+          if-no-files-found: warn
+
+  create_pr:
+    name: Create PR
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
 
       - name: Create or reuse PR
         env:

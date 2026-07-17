@@ -174,4 +174,5 @@ def main() -> None:
         render_states()
 
 
-main()
+if __name__ == "__main__":  # pragma: no cover
+    main()
