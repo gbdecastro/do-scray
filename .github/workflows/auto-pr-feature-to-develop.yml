@@ -17,6 +17,12 @@ jobs:
   create-pr:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
       - name: Create or reuse PR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
