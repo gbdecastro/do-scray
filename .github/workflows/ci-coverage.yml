@@ -2,10 +2,11 @@ name: CI Coverage
 
 on:
   push:
-  pull_request:
+    paths-ignore:
+      - badges/coverage.json
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build_and_test:
@@ -32,11 +33,16 @@ jobs:
         run: |
           set -uo pipefail
           status=0
+          coverage_percent=0
 
           python -m coverage run --source=diario_oficial -m unittest discover -s tests -t . || status=$?
-          python -m coverage report --fail-under=90 || status=$?
+          report_output="$(python -m coverage report --fail-under=90 2>&1)" || status=$?
+          coverage_percent="$(printf '%s\n' "$report_output" | awk '/TOTAL/ {gsub(/%/, "", $4); print $4; exit}')"
+          coverage_percent="${coverage_percent:-0}"
           python -m coverage xml
           python -m coverage html
+
+          printf '%s\n' "$coverage_percent" > coverage-percent.txt
 
           exit "$status"
 
@@ -48,4 +54,49 @@ jobs:
           path: |
             coverage.xml
             htmlcov/
+            coverage-percent.txt
           if-no-files-found: warn
+
+      - name: Update coverage badge
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          set -euo pipefail
+
+          coverage_percent="$(cat coverage-percent.txt 2>/dev/null || printf '0')"
+          coverage_int="${coverage_percent%%.*}"
+
+          if [[ -z "$coverage_int" ]]; then
+            coverage_int=0
+          fi
+
+          if (( coverage_int >= 90 )); then
+            color="brightgreen"
+          elif (( coverage_int >= 75 )); then
+            color="yellowgreen"
+          elif (( coverage_int >= 50 )); then
+            color="yellow"
+          else
+            color="red"
+          fi
+
+          mkdir -p badges
+          cat > badges/coverage.json <<EOF
+          {
+            "schemaVersion": 1,
+            "label": "coverage",
+            "message": "${coverage_percent}%",
+            "color": "${color}"
+          }
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add badges/coverage.json
+          if git diff --cached --quiet -- badges/coverage.json; then
+            echo "Coverage badge is already up to date."
+            exit 0
+          fi
+
+          git commit -m "ci: update coverage badge"
+          git push origin HEAD:main

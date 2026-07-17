@@ -31,6 +31,9 @@ jobs:
         run: |
           set -euo pipefail
 
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           release_branch="${{ github.event.pull_request.head.ref }}"
           version="${release_branch#release/}"
 
