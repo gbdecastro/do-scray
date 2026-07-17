@@ -1,6 +1,6 @@
 # Diário Oficial Scraper
 
-[![CI Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgbdecastro%2Fdo-scray%2Fmain%2Fbadges%2Fcoverage.json)](https://github.com/gbdecastro/do-scray/actions/workflows/ci-coverage.yml)
+[![CI Coverage](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgbdecastro%2Fdo-scray%2Frefs%2Fheads%2Fmain%2Fbadges%2Fcoverage.json&query=%24.message)](https://github.com/gbdecastro/do-scray/actions/workflows/ci-coverage.yml)
 
 Crawler em Python para monitorar diários oficiais, extrair texto de PDFs, procurar termos de interesse e enviar notificações no Telegram.
 
