@@ -18,7 +18,7 @@ h1{font-size:clamp(28px,3.6vw,44px);letter-spacing:-1.7px;margin:12px 0 8px}.mut
 .bars{display:flex;align-items:flex-end;gap:9px;height:200px;border-bottom:1px solid #344155;padding:0 4px 2px}.bar{flex:1;min-width:4px;max-width:32px;border-radius:5px 5px 0 0;background:linear-gradient(#5ce2c0,#258a83);position:relative}.bar:hover{background:#a0f6de}.bar[title]{cursor:help}
 .legend{display:flex;gap:16px;color:#90a2bd;font-size:12px;margin-top:18px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#5ce2c0;margin-right:6px}
 .table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8192ab;font-weight:700}th,td{padding:15px 12px;border-bottom:1px solid #263347;white-space:nowrap}td{color:#c6d2e3}.pill{display:inline-block;border-radius:100px;padding:5px 10px;font-size:11px;font-weight:700;background:#193d35;color:#7be5b9}.pill.failed,.pill.error{background:#45262c;color:#ff9ba7}.pill.partial{background:#463a20;color:#f8d68b}.pill.unknown{background:#29354b;color:#9eafc8}
-.full{margin-top:18px}.empty{padding:30px;text-align:center;color:#91a1b8}.footer{margin-top:26px;font-size:12px;color:#70819c}
+.doc-link{color:#72e9c9;text-decoration:none;font-weight:700}.doc-link:hover{text-decoration:underline}.editions-controls{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.editions-controls input,.editions-controls select{flex:1}.full{margin-top:18px}.empty{padding:30px;text-align:center;color:#91a1b8}.footer{margin-top:26px;font-size:12px;color:#70819c}
 @media(max-width:1050px){.layout{grid-template-columns:1fr}aside{padding:16px 22px;border-right:0;border-bottom:1px solid #263347}.side-label,.nav{display:none}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.panels{grid-template-columns:1fr}}
 @media(max-width:580px){main{padding:24px 16px}.cards{grid-template-columns:1fr 1fr;gap:10px}.card{padding:16px}.card strong{font-size:26px}.controls>*{flex:1;min-width:0}.panel{padding:18px}}
 </style>
@@ -31,12 +31,15 @@ h1{font-size:clamp(28px,3.6vw,44px);letter-spacing:-1.7px;margin:12px 0 8px}.mut
 <section class="cards"><div class="card"><div class="label">Execuções</div><strong id="runs">—</strong><small>No período selecionado</small></div><div class="card"><div class="label">Crawlers bem-sucedidos</div><strong id="success">—</strong><small>Execuções individuais</small></div><div class="card"><div class="label">Documentos processados</div><strong id="processed">—</strong><small>Total acumulado</small></div><div class="card"><div class="label">Correspondências</div><strong id="matches">—</strong><small>Termos encontrados</small></div></section>
 <div class="panels"><section class="panel"><h2>Atividade de processamento</h2><div class="sub">Documentos processados por execução</div><div id="bars" class="bars" role="img" aria-label="Gráfico de documentos processados"></div><div class="legend"><span><i class="dot"></i> Processados</span></div></section><section class="panel"><h2>Saúde dos crawlers</h2><div class="sub">Resultado agregado por origem</div><div class="table-wrap"><table><thead><tr><th>Crawler</th><th>Sucesso</th><th>Falhas</th><th>Processados</th></tr></thead><tbody id="health"></tbody></table></div></section></div>
 <section class="panel full"><h2>Histórico de execuções</h2><div class="sub">Últimos registros do período e filtros selecionados</div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Crawler</th><th>Status</th><th>Duração</th><th>Processados</th><th>Matches</th></tr></thead><tbody id="history"></tbody></table></div></section>
+<section class="panel full"><h2>Biblioteca de edições</h2><div class="sub">Edições registradas nos estados persistidos · Links para documentos oficiais, sem hospedar PDFs</div><div class="editions-controls"><input id="edition-search" placeholder="Buscar edição…" aria-label="Buscar edição"><select id="edition-status" aria-label="Resultado da edição"><option value="all">Todas as edições</option><option value="match">Com correspondência</option><option value="no_match">Sem correspondência</option></select></div><div class="table-wrap"><table><thead><tr><th>Origem</th><th>Edição</th><th>Data</th><th>Resultado</th><th>Consultada em</th><th>Documento</th></tr></thead><tbody id="editions"></tbody></table></div><div class="footer" id="edition-count"></div></section>
 <div class="footer">DO Scray · Dados agregados de execução · Atualizado a cada workflow persistente</div>
 </main></div>
 <script id="dashboard-data" type="application/json">__DASHBOARD_DATA__</script>
+<script id="edition-data" type="application/json">__EDITION_DATA__</script>
 <script>
 "use strict";
 const runs=JSON.parse(document.getElementById("dashboard-data").textContent);
+const editions=JSON.parse(document.getElementById("edition-data").textContent);
 const $=id=>document.getElementById(id);
 const fmt=n=>new Intl.NumberFormat("pt-BR").format(n);
 const date=s=>{const d=new Date(s);return Number.isNaN(d.getTime())?"—":d.toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})};
@@ -57,4 +60,22 @@ if(!filtered.length){for(const el of [history,$("health")]){const tr=document.cr
 }
 for(const id of ["period","crawler","status","search"])$(id).addEventListener(id==="search"?"input":"change",draw);
 draw();
+function drawEditions(){
+ const crawler=$("crawler").value, term=$("edition-search").value.trim().toLowerCase(),status=$("edition-status").value;
+ const items=editions.filter(e=>(crawler==="all"||e.crawler===crawler)&&(status==="all"||e.status===status)&&(e.edition.toLowerCase().includes(term)||e.crawler.includes(term)));
+ const body=$("editions");body.replaceChildren();
+ for(const e of items.slice(0,200)){
+   const tr=document.createElement("tr");
+   for(const value of [e.crawler,e.edition,e.date||"—",e.status==="match"?"Correspondência":e.status==="no_match"?"Sem correspondência":"Desconhecido",date(e.checked_at)]){
+     const td=document.createElement("td");td.textContent=value;tr.append(td);
+   }
+   const td=document.createElement("td"),a=document.createElement("a");
+   a.href=e.url;a.target="_blank";a.rel="noopener noreferrer";a.className="doc-link";a.textContent="Abrir ↗";td.append(a);tr.append(td);body.append(tr);
+ }
+ if(!items.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=6;td.className="empty";td.textContent="Nenhuma edição encontrada";tr.append(td);body.append(tr)}
+ $("edition-count").textContent=fmt(items.length)+" edições encontradas · Exibindo até 200 por vez";
+}
+for(const id of ["edition-search","edition-status"])$(id).addEventListener(id==="edition-search"?"input":"change",drawEditions);
+$("crawler").addEventListener("change",drawEditions);
+drawEditions();
 </script></body></html>
