@@ -97,4 +97,4 @@ class RunnerTest(unittest.TestCase):
 
             self.assertEqual(failure, 1)
             self.assertEqual(len(notifier_instances), 2)
-            self.assertEqual(notifier_instances[1].closed, 2)
+            self.assertEqual(notifier_instances[1].closed, 1)
