@@ -135,3 +135,17 @@ class AppsTest(unittest.TestCase):
             self.assertIn(str(root_dir), sys.path)
         finally:
             sys.path = original_sys_path
+
+
+class ManualSelectionTests(unittest.TestCase):
+    def test_select_jobs(self):
+        self.assertEqual(run_crawlers.select_jobs("all"), run_crawlers.CRAWLER_JOBS)
+        self.assertEqual([job.name for job in run_crawlers.select_jobs("boituva")], ["boituva"])
+        with self.assertRaises(ValueError):
+            run_crawlers.select_jobs("invalid")
+
+    def test_force_flag(self):
+        for enabled, expected in [("true", ["--force"]), ("false", [])]:
+            with self.subTest(enabled=enabled), patch.object(run_crawlers, "setup_logging"), patch.object(run_crawlers, "CRAWLER_JOBS", [CrawlerJob(name="boituva", script=Path("boituva.py"))]), patch.object(run_crawlers, "run_job", return_value=0) as run, patch.dict(run_crawlers.os.environ, {"DO_SCRAY_CRAWLER": "boituva", "DO_SCRAY_FORCE": enabled}):
+                self.assertEqual(run_crawlers.main(), 0)
+                self.assertEqual(run.call_args.args[2], expected)
