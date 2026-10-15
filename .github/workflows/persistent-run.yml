@@ -1,0 +1,85 @@
+name: Persistent crawler run
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: do-scray-persistent-state
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout application
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Restore persistent state
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git fetch origin data
+            if git ls-tree -d --name-only FETCH_HEAD state | grep -qx state; then
+              git archive FETCH_HEAD state | tar -xf -
+            fi
+          fi
+          mkdir -p state
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run crawlers and capture status
+        id: crawl
+        shell: bash
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DO_SCRAY_DURABLE_NOTIFICATIONS: "1"
+        run: |
+          set +e
+          python -m diario_oficial.apps.run_crawlers
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Persist state even after crawler failures
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            empty_tree="$(git hash-object -t tree /dev/null)"
+            initial="$(printf 'Initialize persistent state\n' | git commit-tree "$empty_tree")"
+            git push origin "$initial:refs/heads/data"
+          fi
+          git fetch origin data
+          git worktree add --detach "$RUNNER_TEMP/persisted-state" FETCH_HEAD
+          mkdir -p "$RUNNER_TEMP/persisted-state/state"
+          cp -a state/. "$RUNNER_TEMP/persisted-state/state/"
+          cd "$RUNNER_TEMP/persisted-state"
+          git add -- state
+          if ! git diff --cached --quiet; then
+            git commit -m "data: update crawler and notification state"
+            git push origin HEAD:refs/heads/data
+          fi
+
+      - name: Propagate crawler exit status
+        if: always()
+        shell: bash
+        env:
+          CRAWLER_EXIT_CODE: ${{ steps.crawl.outputs.exit_code }}
+        run: exit "${CRAWLER_EXIT_CODE:-1}"
