@@ -69,7 +69,7 @@ def main() -> int:
             duration_seconds=round(time.monotonic() - start_clock, 3),
         ))
         if status != 0:
-            overall_status = 1
+            overall_status = status
 
     manifest = RunManifest(
         schema_version=1,
