@@ -1,7 +1,7 @@
 {
   "editions": {
     "3730": {
-      "checked_at": "2026-10-15T01:33:05",
+      "checked_at": "2026-10-15T01:42:09",
       "date": "01/10/2026",
       "matched_terms": [],
       "number": "3730",
@@ -11,7 +11,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73251/"
     },
     "3731": {
-      "checked_at": "2026-10-15T01:33:05",
+      "checked_at": "2026-10-15T01:42:09",
       "date": "02/10/2026",
       "matched_terms": [],
       "number": "3731",
@@ -21,7 +21,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73254/"
     },
     "3732": {
-      "checked_at": "2026-10-15T01:33:05",
+      "checked_at": "2026-10-15T01:42:08",
       "date": "05/10/2026",
       "matched_terms": [],
       "number": "3732",
@@ -31,7 +31,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73257/"
     },
     "3733": {
-      "checked_at": "2026-10-15T01:33:04",
+      "checked_at": "2026-10-15T01:42:08",
       "date": "06/10/2026",
       "matched_terms": [],
       "number": "3733",
@@ -41,7 +41,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73266/"
     },
     "3734": {
-      "checked_at": "2026-10-15T01:33:04",
+      "checked_at": "2026-10-15T01:42:08",
       "date": "07/10/2026",
       "matched_terms": [],
       "number": "3734",
@@ -51,7 +51,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73271/"
     },
     "3735": {
-      "checked_at": "2026-10-15T01:33:04",
+      "checked_at": "2026-10-15T01:42:07",
       "date": "08/10/2026",
       "matched_terms": [],
       "number": "3735",
@@ -61,7 +61,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73272/"
     },
     "3736": {
-      "checked_at": "2026-10-15T01:33:03",
+      "checked_at": "2026-10-15T01:42:07",
       "date": "09/10/2026",
       "matched_terms": [],
       "number": "3736",
@@ -71,7 +71,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73359/"
     },
     "3737": {
-      "checked_at": "2026-10-15T01:33:03",
+      "checked_at": "2026-10-15T01:42:06",
       "date": "13/10/2026",
       "matched_terms": [],
       "number": "3737",
@@ -81,7 +81,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73366/"
     },
     "3738": {
-      "checked_at": "2026-10-15T01:33:02",
+      "checked_at": "2026-10-15T01:42:06",
       "date": "14/10/2026",
       "matched_terms": [],
       "number": "3738",
@@ -91,7 +91,7 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73367/"
     },
     "3739": {
-      "checked_at": "2026-10-15T01:33:01",
+      "checked_at": "2026-10-15T01:42:05",
       "date": "14/10/2026",
       "matched_terms": [],
       "number": "3739",
@@ -101,5 +101,5 @@
       "url": "https://www.indaiatuba.sp.gov.br/download/73370/"
     }
   },
-  "updated_at": "2026-10-15T01:33:05"
+  "updated_at": "2026-10-15T01:42:09"
 }
