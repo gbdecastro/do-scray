@@ -12,6 +12,7 @@ class CrawlerJob:
 
 
 CRAWLER_JOBS: list[CrawlerJob] = [
+    CrawlerJob(name="cismetro", script=Path("diario_oficial/apps/cismetro.py")),
     CrawlerJob(name="boituva", script=Path("diario_oficial/apps/boituva.py")),
     CrawlerJob(name="indaiatuba", script=Path("diario_oficial/apps/indaiatuba.py")),
     CrawlerJob(name="sorocaba", script=Path("diario_oficial/apps/sorocaba.py")),
