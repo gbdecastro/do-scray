@@ -1,0 +1,97 @@
+{
+  "editions": {
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4051-06-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-15T01:33:26",
+      "date": "06 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4051",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4051-06-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4051-06-DE-OUTUBRO-de-2026-Edital-de-Chamamento-Publico-Sedu_GS-n-04_2026.pdf": {
+      "checked_at": "2026-10-15T01:33:26",
+      "date": "06 DE OUTUBRO de 2026",
+      "matched_terms": [],
+      "number": "4051",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4051-06-DE-OUTUBRO-de-2026-Edital-de-Chamamento-Publico-Sedu_GS-n-04_2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4052-07-DE-OUTUBRO-DE-2026-Edital-Coremu-Coordenadoria-de-Educacao-em-Saude-no-01_2026.pdf": {
+      "checked_at": "2026-10-15T01:33:24",
+      "date": "07 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4052",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4052-07-DE-OUTUBRO-DE-2026-Edital-Coremu-Coordenadoria-de-Educacao-em-Saude-no-01_2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4052-07-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-15T01:33:25",
+      "date": "07 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4052",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4052-07-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4053-08-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-15T01:33:24",
+      "date": "08 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4053",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4053-08-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4054-09-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-15T01:33:24",
+      "date": "09 DE OUTUBRO DE 2026",
+      "matched_terms": [
+        "15336"
+      ],
+      "number": "4054",
+      "saved_pdf": "DO/Sorocaba/4054_09_DE_OUTUBRO_DE_2026.pdf",
+      "source_name": "Sorocaba",
+      "status": "match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4054-09-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4055-13-DE-OUTUBRO-DE-2026-Plano-de-Contratacoes-Anual-PCA-—-Exercicio_2027-Camara-Municipal-de-Sorocaba.pdf": {
+      "checked_at": "2026-10-15T01:33:22",
+      "date": "13 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4055",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4055-13-DE-OUTUBRO-DE-2026-Plano-de-Contratacoes-Anual-PCA-—-Exercicio_2027-Camara-Municipal-de-Sorocaba.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4055-13-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-15T01:33:23",
+      "date": "13 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4055",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4055-13-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4056-14-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-15T01:33:22",
+      "date": "14 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4056",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4056-14-DE-OUTUBRO-DE-2026.pdf"
+    }
+  },
+  "updated_at": "2026-10-15T01:33:26"
+}
