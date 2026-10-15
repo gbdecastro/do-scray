@@ -2,6 +2,18 @@ name: Persistent crawler run
 
 on:
   workflow_dispatch:
+    inputs:
+      crawler:
+        description: 'Crawler to execute'
+        type: choice
+        required: true
+        default: all
+        options: [all, cismetro, boituva, indaiatuba, sorocaba]
+      force:
+        description: 'Reprocess previously processed editions'
+        type: boolean
+        required: true
+        default: false
   schedule:
     # 19:00 America/Sao_Paulo (UTC-03:00; no DST currently)
     - cron: '0 22 * * *'
@@ -66,6 +78,8 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DO_SCRAY_DURABLE_NOTIFICATIONS: "1"
+          DO_SCRAY_CRAWLER: ${{ github.event_name == 'workflow_dispatch' && inputs.crawler || 'all' }}
+          DO_SCRAY_FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
         run: |
           set +e
           python -m diario_oficial.apps.run_crawlers

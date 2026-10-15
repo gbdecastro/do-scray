@@ -50,6 +50,15 @@ def run_job(job_name: str, script: Path, args: list[str]) -> int:
     return result.returncode
 
 
+def select_jobs(selection: str):
+    if selection == "all":
+        return CRAWLER_JOBS
+    jobs = [job for job in CRAWLER_JOBS if job.name == selection]
+    if not jobs:
+        raise ValueError(f"Unknown crawler: {selection}")
+    return jobs
+
+
 def main() -> int:
     setup_logging()
     overall_status = 0
@@ -57,11 +66,13 @@ def main() -> int:
     results: list[CrawlerRunResult] = []
 
     logging.info("Execução do conjunto de crawlers iniciada.")
-    for job in CRAWLER_JOBS:
+    selection = os.environ.get("DO_SCRAY_CRAWLER", "all")
+    force = os.environ.get("DO_SCRAY_FORCE", "false").lower() == "true"
+    for job in select_jobs(selection):
         job_started_at = timestamp()
         start_clock = time.monotonic()
         try:
-            status = run_job(job.name, job.script, job.args)
+            status = run_job(job.name, job.script, [*job.args, *(["--force"] if force else [])])
         except Exception:
             logging.exception("Falha inesperada ao iniciar crawler %s", job.name)
             status = 1
