@@ -1,0 +1,50 @@
+name: Publish operations dashboard
+
+on:
+  workflow_run:
+    workflows: ["Persistent crawler run"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-dashboard
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout dashboard generator
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Restore sanitized history source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p state/history
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git fetch --depth=1 origin data
+            if git cat-file -e FETCH_HEAD:state/history/runs.json 2>/dev/null; then
+              git show FETCH_HEAD:state/history/runs.json > state/history/runs.json
+            fi
+          fi
+      - name: Generate static dashboard
+        run: python -m diario_oficial.web_dashboard.generate state/history/runs.json _site/index.html
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
