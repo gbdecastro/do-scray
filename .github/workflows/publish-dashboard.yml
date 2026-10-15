@@ -33,12 +33,17 @@ jobs:
           mkdir -p state/history
           if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
             git fetch --depth=1 origin data
+            for file in edicoes_lidas_boituva.json cismetro_convocacoes.json edicoes_lidas_indaiatuba.json edicoes_lidas_sorocaba.json; do
+              if git cat-file -e "FETCH_HEAD:state/$file" 2>/dev/null; then
+                git show "FETCH_HEAD:state/$file" > "state/$file"
+              fi
+            done
             if git cat-file -e FETCH_HEAD:state/history/runs.json 2>/dev/null; then
               git show FETCH_HEAD:state/history/runs.json > state/history/runs.json
             fi
           fi
       - name: Generate static dashboard
-        run: python -m diario_oficial.web_dashboard.generate state/history/runs.json _site/index.html
+        run: python -m diario_oficial.web_dashboard.generate state/history/runs.json _site/index.html state
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
