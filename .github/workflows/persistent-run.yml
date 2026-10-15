@@ -2,9 +2,24 @@ name: Persistent crawler run
 
 on:
   workflow_dispatch:
+    inputs:
+      crawler:
+        description: 'Crawler to execute'
+        type: choice
+        required: true
+        default: all
+        options: [all, cismetro, boituva, indaiatuba, sorocaba]
+      force:
+        description: 'Reprocess previously processed editions'
+        type: boolean
+        required: true
+        default: false
+  schedule:
+    # 19:00 America/Sao_Paulo (UTC-03:00; no DST currently)
+    - cron: '0 22 * * *'
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: do-scray-persistent-state
@@ -12,8 +27,11 @@ concurrency:
 
 jobs:
   run:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    environment: production
     steps:
       - name: Checkout application
         uses: actions/checkout@v4
@@ -33,6 +51,18 @@ jobs:
           fi
           mkdir -p state
 
+      - name: Verify Telegram secrets
+        shell: bash
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$TELEGRAM_TOKEN" || -z "$TELEGRAM_CHAT_ID" ]]; then
+            echo 'Telegram secrets are missing; refusing to process editions.' >&2
+            exit 1
+          fi
+
       - name: Install Python
         uses: actions/setup-python@v5
         with:
@@ -48,6 +78,8 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DO_SCRAY_DURABLE_NOTIFICATIONS: "1"
+          DO_SCRAY_CRAWLER: ${{ github.event_name == 'workflow_dispatch' && inputs.crawler || 'all' }}
+          DO_SCRAY_FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
         run: |
           set +e
           python -m diario_oficial.apps.run_crawlers
