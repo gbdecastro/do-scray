@@ -87,6 +87,10 @@ jobs:
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
 
+      - name: Record execution history
+        if: always()
+        run: python -m diario_oficial.services.run_history
+
       - name: Persist state even after crawler failures
         shell: bash
         run: |
