@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime as dt
 import json
 import logging
+import os
 from pathlib import Path
 
 
@@ -17,7 +18,9 @@ class JsonStateStore:
         try:
             with self.state_file.open("r", encoding="utf-8") as handle:
                 raw = json.load(handle)
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+            if os.environ.get("DO_SCRAY_STRICT_STATE") == "1":
+                raise ValueError(f"Corrupt state file: {self.state_file}") from exc
             logging.warning(
                 "Arquivo de estado corrompido, iniciando um novo: %s",
                 self.state_file,
@@ -26,6 +29,8 @@ class JsonStateStore:
 
         editions = raw.get("editions", {}) if isinstance(raw, dict) else {}
         if not isinstance(editions, dict):
+            if os.environ.get("DO_SCRAY_STRICT_STATE") == "1":
+                raise ValueError(f"Invalid editions in state file: {self.state_file}")
             return {}
         return editions
 
