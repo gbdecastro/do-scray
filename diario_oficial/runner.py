@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import logging
+import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -57,10 +59,22 @@ def run_crawler(
         summary = crawler.run(force=force)
     except requests.RequestException as exc:
         logging.exception("Falha geral na execução do crawler: %s", exc)
-        notifier.close()
         return 1
     finally:
         notifier.close()
+
+    result_path = os.environ.get('DO_SCRAY_RESULT')
+    if result_path:
+        try:
+            metrics = {key: int(summary.get(key, 0)) for key in ('processed', 'skipped', 'match', 'no_match', 'errors')}
+            destination = Path(result_path)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            temporary = destination.with_suffix('.tmp')
+            temporary.write_text(json.dumps(metrics, ensure_ascii=False) + '\n', encoding='utf-8')
+            temporary.replace(destination)
+        except (OSError, ValueError, TypeError) as exc:
+            logging.error('Falha ao registrar métricas: %s', exc)
+            return 1
 
     logging.info(
         "Execução finalizada. Processadas: %d | Ignoradas: %d | Matches: %d | Sem match: %d",

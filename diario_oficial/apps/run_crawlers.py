@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-import datetime as dt
+import json
 import os
 import time
 import subprocess
@@ -33,7 +33,12 @@ def run_job(job_name: str, script: Path, args: list[str]) -> int:
     module_name = ".".join(script.with_suffix("").parts)
     command = [sys.executable, "-m", module_name, *args]
     logging.info("Iniciando crawler %s: %s", job_name, " ".join(command))
-    result = subprocess.run(command, cwd=ROOT_DIR)
+    result_path = ROOT_DIR / 'reports' / 'results' / f'{job_name}.json'
+    result_path.parent.mkdir(parents=True, exist_ok=True)
+    result_path.unlink(missing_ok=True)
+    env = os.environ.copy()
+    env['DO_SCRAY_RESULT'] = str(result_path)
+    result = subprocess.run(command, cwd=ROOT_DIR, env=env)
     if result.returncode == 0:
         logging.info("Crawler %s finalizado com sucesso.", job_name)
     else:
@@ -60,6 +65,15 @@ def main() -> int:
         except Exception:
             logging.exception("Falha inesperada ao iniciar crawler %s", job.name)
             status = 1
+        metrics_path = ROOT_DIR / 'reports' / 'results' / f'{job.name}.json'
+        metrics = None
+        if metrics_path.exists():
+            try:
+                raw = json.loads(metrics_path.read_text(encoding='utf-8'))
+                if isinstance(raw, dict) and all(isinstance(raw.get(k), int) and raw[k] >= 0 for k in ('processed', 'skipped', 'match', 'no_match', 'errors')):
+                    metrics = {k: raw[k] for k in ('processed', 'skipped', 'match', 'no_match', 'errors')}
+            except (OSError, ValueError, TypeError):
+                logging.warning('Métricas inválidas para %s', job.name)
         results.append(CrawlerRunResult(
             name=job.name,
             status="success" if status == 0 else "failed",
@@ -67,6 +81,7 @@ def main() -> int:
             started_at=job_started_at,
             finished_at=timestamp(),
             duration_seconds=round(time.monotonic() - start_clock, 3),
+            metrics=metrics,
         ))
         if status != 0:
             overall_status = status

@@ -58,6 +58,21 @@ class ManifestTests(unittest.TestCase):
                 self.assertEqual(run_crawlers.main(), 7)
             self.assertEqual(json.loads(destination.read_text())["crawlers"][0]["exit_code"], 7)
 
+    def test_manifest_includes_metrics(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            destination = Path(tmp) / 'run.json'
+            result_dir = run_crawlers.ROOT_DIR / 'reports' / 'results'
+            with patch.object(run_crawlers, 'ROOT_DIR', Path(tmp)), patch.object(run_crawlers, 'setup_logging'), patch.object(
+                run_crawlers, 'CRAWLER_JOBS', [run_crawlers.CRAWLER_JOBS[0]]
+            ), patch.object(run_crawlers, 'run_job', return_value=0), patch.dict(
+                'os.environ', {'DO_SCRAY_MANIFEST': str(destination)}
+            ):
+                metrics_file = Path(tmp) / 'reports' / 'results' / f'{run_crawlers.CRAWLER_JOBS[0].name}.json'
+                metrics_file.parent.mkdir(parents=True)
+                metrics_file.write_text(json.dumps({'processed': 2, 'skipped': 1, 'match': 1, 'no_match': 1, 'errors': 0}))
+                self.assertEqual(run_crawlers.main(), 0)
+            self.assertEqual(json.loads(destination.read_text())['crawlers'][0]['metrics']['processed'], 2)
+
     def test_main_success(self):
         with tempfile.TemporaryDirectory() as tmp:
             destination = Path(tmp) / "run.json"

@@ -14,6 +14,7 @@ class CrawlerRunResult:
     started_at: str
     finished_at: str
     duration_seconds: float
+    metrics: dict[str, int] | None = None
 
 
 @dataclasses.dataclass(frozen=True)
