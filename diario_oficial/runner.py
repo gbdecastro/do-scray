@@ -10,6 +10,7 @@ from typing import Any
 import requests
 
 from .services import JsonStateStore, TelegramNotifier
+from .services.durable_notifier import DurableNotifier
 
 
 def setup_logging(log_file: Path) -> None:
@@ -44,7 +45,7 @@ def run_crawler(
 
     session = requests.Session()
     session.headers.update({"User-Agent": user_agent})
-    notifier = TelegramNotifier()
+    notifier = DurableNotifier(state_file) if os.environ.get('DO_SCRAY_DURABLE_NOTIFICATIONS') == '1' else TelegramNotifier()
 
     crawler = crawler_cls(
         session=session,
