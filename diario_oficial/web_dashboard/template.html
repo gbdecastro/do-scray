@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>DO Scray · Operations</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;color:#e9eef8;background:#080d18;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 70% -20%,#1d3050 0%,transparent 50%),#080d18;min-height:100vh}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:100vh}
+aside{border-right:1px solid #202a3c;padding:32px 20px;background:#0c1321} .brand{font-size:20px;font-weight:800;letter-spacing:-.7px}.brand span{color:#67e8c3}.side-label{color:#75849e;font-size:11px;letter-spacing:2px;margin:44px 10px 14px}.nav{background:#18283b;color:#a7f3d0;padding:12px;border-radius:12px;font-weight:600}
+main{padding:40px clamp(20px,4vw,64px);max-width:1700px;width:100%;margin:auto}.eyebrow{font-size:11px;letter-spacing:2px;color:#65d9b7;font-weight:800;text-transform:uppercase}
+h1{font-size:clamp(28px,3.6vw,44px);letter-spacing:-1.7px;margin:12px 0 8px}.muted{color:#93a2bc}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.status{border:1px solid #284538;background:#102b29;border-radius:100px;padding:10px 15px;font-size:12px;color:#80e8c5}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin:32px 0 22px}select,input{background:#111b2b;color:#e9eef8;border:1px solid #2b394f;border-radius:10px;padding:11px 14px;min-width:150px;font:inherit;font-size:13px}input{min-width:210px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.card,.panel{background:linear-gradient(145deg,#121d2e,#0e1725);border:1px solid #263347;border-radius:17px;box-shadow:0 10px 35px #0002}
+.card{padding:22px}.card .label{color:#93a2bc;font-size:13px}.card strong{display:block;font-size:32px;letter-spacing:-1px;margin:12px 0 4px}.card small{color:#6d819f}
+.panels{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;margin-top:18px}.panel{padding:24px;min-width:0}.panel h2{font-size:17px;letter-spacing:-.3px;margin:0 0 8px}.panel .sub{font-size:12px;color:#8192ab;margin-bottom:22px}
+.bars{display:flex;align-items:flex-end;gap:9px;height:200px;border-bottom:1px solid #344155;padding:0 4px 2px}.bar{flex:1;min-width:4px;max-width:32px;border-radius:5px 5px 0 0;background:linear-gradient(#5ce2c0,#258a83);position:relative}.bar:hover{background:#a0f6de}.bar[title]{cursor:help}
+.legend{display:flex;gap:16px;color:#90a2bd;font-size:12px;margin-top:18px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#5ce2c0;margin-right:6px}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8192ab;font-weight:700}th,td{padding:15px 12px;border-bottom:1px solid #263347;white-space:nowrap}td{color:#c6d2e3}.pill{display:inline-block;border-radius:100px;padding:5px 10px;font-size:11px;font-weight:700;background:#193d35;color:#7be5b9}.pill.failed,.pill.error{background:#45262c;color:#ff9ba7}.pill.partial{background:#463a20;color:#f8d68b}.pill.unknown{background:#29354b;color:#9eafc8}
+.full{margin-top:18px}.empty{padding:30px;text-align:center;color:#91a1b8}.footer{margin-top:26px;font-size:12px;color:#70819c}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}aside{padding:16px 22px;border-right:0;border-bottom:1px solid #263347}.side-label,.nav{display:none}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.panels{grid-template-columns:1fr}}
+@media(max-width:580px){main{padding:24px 16px}.cards{grid-template-columns:1fr 1fr;gap:10px}.card{padding:16px}.card strong{font-size:26px}.controls>*{flex:1;min-width:0}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<div class="layout"><aside><div class="brand">◈ DO <span>Scray</span></div><div class="side-label">WORKSPACE</div><div class="nav">◫ &nbsp; Overview</div></aside>
+<main>
+<div class="top"><div><div class="eyebrow">Operations / Monitoring</div><h1>Visão geral</h1><div class="muted">Telemetria das execuções dos diários oficiais</div></div><div class="status">● &nbsp; Histórico sincronizado</div></div>
+<div class="controls"><label><select id="period" aria-label="Período"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option><option value="all">Todo o histórico</option></select></label><label><select id="crawler" aria-label="Crawler"><option value="all">Todos os crawlers</option><option value="boituva">Boituva</option><option value="cismetro">CISMETRO</option><option value="indaiatuba">Indaiatuba</option><option value="sorocaba">Sorocaba</option></select></label><label><select id="status" aria-label="Status"><option value="all">Todos os status</option><option value="success">Sucesso</option><option value="failed">Falha</option><option value="partial">Parcial</option><option value="error">Erro</option></select></label><input id="search" placeholder="Buscar por crawler…" aria-label="Buscar crawler"></div>
+<section class="cards"><div class="card"><div class="label">Execuções</div><strong id="runs">—</strong><small>No período selecionado</small></div><div class="card"><div class="label">Crawlers bem-sucedidos</div><strong id="success">—</strong><small>Execuções individuais</small></div><div class="card"><div class="label">Documentos processados</div><strong id="processed">—</strong><small>Total acumulado</small></div><div class="card"><div class="label">Correspondências</div><strong id="matches">—</strong><small>Termos encontrados</small></div></section>
+<div class="panels"><section class="panel"><h2>Atividade de processamento</h2><div class="sub">Documentos processados por execução</div><div id="bars" class="bars" role="img" aria-label="Gráfico de documentos processados"></div><div class="legend"><span><i class="dot"></i> Processados</span></div></section><section class="panel"><h2>Saúde dos crawlers</h2><div class="sub">Resultado agregado por origem</div><div class="table-wrap"><table><thead><tr><th>Crawler</th><th>Sucesso</th><th>Falhas</th><th>Processados</th></tr></thead><tbody id="health"></tbody></table></div></section></div>
+<section class="panel full"><h2>Histórico de execuções</h2><div class="sub">Últimos registros do período e filtros selecionados</div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Crawler</th><th>Status</th><th>Duração</th><th>Processados</th><th>Matches</th></tr></thead><tbody id="history"></tbody></table></div></section>
+<div class="footer">DO Scray · Dados agregados de execução · Atualizado a cada workflow persistente</div>
+</main></div>
+<script id="dashboard-data" type="application/json">__DASHBOARD_DATA__</script>
+<script>
+"use strict";
+const runs=JSON.parse(document.getElementById("dashboard-data").textContent);
+const $=id=>document.getElementById(id);
+const fmt=n=>new Intl.NumberFormat("pt-BR").format(n);
+const date=s=>{const d=new Date(s);return Number.isNaN(d.getTime())?"—":d.toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})};
+const safeStatus=s=>["success","failed","partial","error","skipped","unknown"].includes(s)?s:"unknown";
+const statusLabel={success:"Sucesso",failed:"Falha",partial:"Parcial",error:"Erro",skipped:"Ignorado",unknown:"Desconhecido"};
+function draw(){
+const period=$("period").value, crawler=$("crawler").value, status=$("status").value, search=$("search").value.trim().toLowerCase();
+const cutoff=Date.now()-(Number(period)||0)*86400000;
+const filtered=runs.filter(r=>period==="all"||new Date(r.started_at).getTime()>=cutoff).flatMap(r=>r.crawlers.map(c=>({...c,at:r.started_at}))).filter(c=>(crawler==="all"||c.name===crawler)&&(status==="all"||c.status===status)&&c.name.includes(search));
+const uniq=new Set(filtered.map(c=>c.at));
+$("runs").textContent=fmt(uniq.size);$("success").textContent=fmt(filtered.filter(c=>c.status==="success").length);
+$("processed").textContent=fmt(filtered.reduce((n,c)=>n+(c.metrics.processed||0),0));$("matches").textContent=fmt(filtered.reduce((n,c)=>n+(c.metrics.match||0),0));
+const groups={};for(const c of filtered){const g=groups[c.name]??={ok:0,fail:0,processed:0};g[c.status==="success"?"ok":"fail"]++;g.processed+=c.metrics.processed||0;}
+$("health").replaceChildren();for(const [name,g] of Object.entries(groups).sort()){const tr=document.createElement("tr");for(const value of [name,g.ok,g.fail,g.processed]){const td=document.createElement("td");td.textContent=value;tr.append(td)}$("health").append(tr)}
+const history=$("history");history.replaceChildren();for(const c of filtered.slice().reverse().slice(0,100)){const tr=document.createElement("tr");for(const value of [date(c.at),c.name,statusLabel[safeStatus(c.status)],Math.round(c.duration_seconds)+"s",c.metrics.processed||0,c.metrics.match||0]){const td=document.createElement("td");td.textContent=value;if(value===statusLabel[safeStatus(c.status)]){const b=document.createElement("span");b.className="pill "+safeStatus(c.status);b.textContent=value;td.replaceChildren(b)}tr.append(td)}history.append(tr)}
+const bars=$("bars");bars.replaceChildren();const samples=filtered.slice(-35);const max=Math.max(1,...samples.map(c=>c.metrics.processed||0));for(const c of samples){const b=document.createElement("div");b.className="bar";b.style.height=Math.max(3,((c.metrics.processed||0)/max)*100)+"%";b.title=c.name+" · "+date(c.at)+" · "+fmt(c.metrics.processed||0)+" documentos";bars.append(b)}
+if(!filtered.length){for(const el of [history,$("health")]){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=6;td.className="empty";td.textContent="Nenhum resultado para os filtros selecionados";tr.append(td);el.append(tr)}}
+}
+for(const id of ["period","crawler","status","search"])$(id).addEventListener(id==="search"?"input":"change",draw);
+draw();
+</script></body></html>
