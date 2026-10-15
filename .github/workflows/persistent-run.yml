@@ -78,6 +78,7 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DO_SCRAY_DURABLE_NOTIFICATIONS: "1"
+          DO_SCRAY_STRICT_STATE: "1"
           DO_SCRAY_CRAWLER: ${{ github.event_name == 'workflow_dispatch' && inputs.crawler || 'all' }}
           DO_SCRAY_FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force || false }}
         run: |
@@ -86,6 +87,10 @@ jobs:
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           exit 0
+
+      - name: Record execution history
+        if: always()
+        run: python -m diario_oficial.services.run_history
 
       - name: Persist state even after crawler failures
         shell: bash

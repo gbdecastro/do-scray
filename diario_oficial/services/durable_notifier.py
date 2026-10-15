@@ -19,10 +19,10 @@ class DurableNotifier:
 
     def __init__(self, state_file: Path) -> None:
         self.path = state_file.parent / "notifications" / (state_file.stem + ".json")
-        self.sender = TelegramNotifier()
         self.pending: dict[str, str] = {}
         self.delivered: set[str] = set()
         self._load()
+        self.sender = TelegramNotifier()
         self._closed = False
 
     def _load(self) -> None:

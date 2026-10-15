@@ -7,6 +7,8 @@ from pathlib import Path
 
 import streamlit as st
 
+from diario_oficial.services.run_history import read_history
+
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 LOG_DIR = ROOT_DIR / "logs"
@@ -158,11 +160,38 @@ def render_states() -> None:
     st.dataframe(rows, use_container_width=True, hide_index=True)
 
 
+def render_history() -> None:
+    rows = read_history(STATE_DIR / 'history' / 'runs.json')
+    if not rows:
+        st.info('Nenhuma execução histórica registrada.')
+        return
+    latest = rows[-1]
+    st.subheader('Última execução')
+    st.write(f"Status: {latest.get('status', 'desconhecido')} · Início: {latest.get('started_at', '-')}")
+    st.dataframe([{**{'crawler': c.get('name'), 'status': c.get('status'), 'duração (s)': c.get('duration_seconds')}, **(c.get('metrics') or {})} for c in latest['crawlers']], hide_index=True, use_container_width=True)
+    st.subheader('Histórico de execuções')
+    st.dataframe([{'início': r.get('started_at'), 'fim': r.get('finished_at'), 'status': r.get('status'), 'crawlers': len(r['crawlers'])} for r in reversed(rows)], hide_index=True, use_container_width=True)
+    st.subheader('Indicadores por crawler')
+    summary = {}
+    for run in rows:
+        for c in run['crawlers']:
+            name = c.get('name', 'unknown')
+            entry = summary.setdefault(name, {'crawler': name, 'execuções': 0, 'falhas': 0, 'processed': 0, 'skipped': 0, 'match': 0, 'no_match': 0, 'errors': 0})
+            entry['execuções'] += 1
+            entry['falhas'] += c.get('status') != 'success'
+            for key in ('processed', 'skipped', 'match', 'no_match', 'errors'):
+                entry[key] += (c.get('metrics') or {}).get(key, 0)
+    st.dataframe(list(summary.values()), hide_index=True, use_container_width=True)
+
+
 def main() -> None:
     render_header()
     render_metrics()
 
-    tab_logs, tab_outputs, tab_states = st.tabs(["Logs", "PDFs", "Estados"])
+    tab_history, tab_logs, tab_outputs, tab_states = st.tabs(["Execuções", "Logs", "PDFs", "Estados"])
+
+    with tab_history:
+        render_history()
 
     with tab_logs:
         render_logs()
