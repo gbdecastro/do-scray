@@ -23,3 +23,10 @@ An auditable source run produces persistent editions, logical attachments, immut
 
 ## Exit gate
 One real pilot edition ingested with integrity, re-run idempotency, safe checkpoint and recovery evidence. No historical completeness claims.
+
+## Fase 1 — Discovery técnico
+- [Plano e checklist](discovery-plan.md)
+- [Auditoria estática dos quatro crawlers](source-audit.md)
+- [Identidade e baseline de ativação](identity-and-baseline.md)
+
+**Estado:** auditoria estática realizada; validação externa e fixtures pendentes. CISMETRO pode exigir exceção ao agregado Edition.
