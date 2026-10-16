@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Radar Público Internal Ingestion API
-  version: 0.3.0
-  description: Draft LIVE-only ingestion contract. Edition + all eligible documents + start from activation baseline. Not implemented.
+  version: 0.4.0
+  description: Draft LIVE-only ingestion contract. Canonical Publication + all eligible documents + start from activation baseline. Not implemented.
 servers:
   - url: /internal/v1
 security:
@@ -45,9 +45,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/SourceRun'
         '404': { description: Not found }
-  /source-runs/{runId}/editions:
+  /source-runs/{runId}/publications:
     post:
-      operationId: ingestEditionManifest
+      operationId: ingestPublicationManifest
       summary: Register an edition and its documents idempotently
       parameters:
         - $ref: '#/components/parameters/RunId'
@@ -56,7 +56,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EditionManifest'
+              $ref: '#/components/schemas/PublicationManifest'
       responses:
         '200': { description: Already observed }
         '201': { description: New edition or version }
@@ -111,17 +111,18 @@ components:
         runId: { type: string }
         sourceId: { type: string }
         status: { type: string, enum: [QUEUED, RUNNING, SUCCEEDED, PARTIAL, FAILED, CANCELLED] }
-        discoveredEditions: { type: integer, minimum: 0 }
+        discoveredPublications: { type: integer, minimum: 0 }
         storedDocuments: { type: integer, minimum: 0 }
         failedDocuments: { type: integer, minimum: 0 }
         correlationId: { type: string }
-    EditionManifest:
+    PublicationManifest:
       type: object
       additionalProperties: false
-      required: [sourceId, canonicalEditionKey, title, officialUrl, documents]
+      required: [sourceId, canonicalPublicationKey, publicationType, title, officialUrl, documents]
       properties:
         sourceId: { type: string }
-        canonicalEditionKey: { type: string, minLength: 1 }
+        canonicalPublicationKey: { type: string, minLength: 1 }
+        publicationType: { type: string, enum: [EDITION, CALL, NOTICE, BULLETIN, OTHER] }
         editionNumber: { type: [string, 'null'] }
         title: { type: string, minLength: 1 }
         publishedAt: { type: [string, 'null'], format: date-time }
@@ -129,8 +130,8 @@ components:
         documents:
           type: array
           items:
-            $ref: '#/components/schemas/EditionDocument'
-    EditionDocument:
+            $ref: '#/components/schemas/PublicationDocument'
+    PublicationDocument:
       type: object
       additionalProperties: false
       required: [canonicalDocumentKey, role, officialUrl, sha256, sizeBytes, mimeType]
