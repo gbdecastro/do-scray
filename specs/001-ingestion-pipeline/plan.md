@@ -39,3 +39,11 @@ Docker Compose integration tests, duplicate/republication fixtures, fault inject
 - Implement bounded historical batches, rate limits, backoff and resumable checkpoints. Avoid fetching entire archives in one run.
 - Track discovered editions, documents and successful storage separately; a historical interval is complete only when all eligible items are durably accounted for.
 - Test multi-document edition, concurrent live/backfill overlap, changed attachment, inaccessible archive interval, and interruption/restart.
+
+## Scope correction — no backfill
+- Implement LIVE mode only; remove historical scheduler, date-range scan, coverage intervals and gap retries from Sprint 0.
+- On source activation, persist `activatedAt` and a **source-specific baseline strategy** (e.g. latest known edition/cursor). Never assume publication date alone is reliable; resolve adapter behavior explicitly.
+- First run records a baseline and processes only eligible items after that boundary according to the agreed strategy. Capture an initial snapshot/cursor safely to avoid missing editions during activation.
+- Keep one LIVE checkpoint per source, updated only after durable processing.
+- Do not add a BACKFILL API mode or coverage endpoint; no historical completeness claims.
+- Retain Edition → EditionDocument → DocumentVersion and multi-document tests.
