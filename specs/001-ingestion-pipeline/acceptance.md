@@ -1,16 +1,18 @@
-# Acceptance — 001 Ingestion
+# 001 — Acceptance evidence
 
-**Status:** NOT RUN. No implementation has been executed.
+**Status:** NOT RUN. No implementation or test execution has occurred.
 
-| ID | Scenario | Expected | Evidence | Status |
-|---|---|---|---|---|
-| AC-001 | New edition | Run/publication/version + PDF persisted | Pending integration test | PENDING |
-| AC-002 | Identical replay | No duplicates | Pending idempotency test | PENDING |
-| AC-003 | Modified PDF | New version, old retained | Pending versioning test | PENDING |
-| AC-004 | No keyword match | Document still persisted | Pending fixture | PENDING |
-| AC-005 | Crash after upload | Reconciled or explicit error | Pending fault injection | PENDING |
-| AC-006 | Source failure | Correct run status and checkpoint | Pending failure test | PENDING |
-| AC-007 | Unauthenticated request | Rejected | Pending API security test | PENDING |
-| AC-008 | Successful extraction | Text/status queryable | Pending worker test | PENDING |
+| ID | Scenario | Evidence | Status |
+|---|---|---|---|
+| AC-001 | EDITION and CALL via same API | Integration fixtures pending | PENDING |
+| AC-002 | Idempotent replay | Integration test pending | PENDING |
+| AC-003 | Immutable changed version | Storage test pending | PENDING |
+| AC-004 | All eligible docs without keyword match | Adapter fixture pending | PENDING |
+| AC-005 | Multi-document publication | Fixture pending | PENDING |
+| AC-006 | Crash/reconciliation | Fault injection pending | PENDING |
+| AC-007 | Safe checkpoint on failure | Fault injection pending | PENDING |
+| AC-008 | Authentication/authorization | API security test pending | PENDING |
+| AC-009 | Activation boundary and race | Source fixture pending | PENDING |
+| AC-010 | New adapter without core schema change | Contract test pending | PENDING |
 
-Record commit, Docker versions, commands, output, and defects before changing status to VERIFIED.
+Before VERIFIED, record commit, environment, commands, output and reviewer sign-off.
