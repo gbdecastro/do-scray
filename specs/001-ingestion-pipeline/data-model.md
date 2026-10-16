@@ -33,3 +33,11 @@ The initial `Publication` concept is now **Edition**. Do not implement the old o
 | IngestionAttempt | id, runId, editionDocumentId?, errorCode, status | FK(runId) |
 
 **Invariant:** one edition can have many documents; one document can have many immutable versions. LIVE and BACKFILL must share identity constraints but not overwrite each other's progress. Design exclusion/overlap rules for coverage intervals during physical migration.
+
+## Scope correction — LIVE only
+- Remove `SourceCoverage` and historical interval fields from the Sprint 0 schema.
+- `SourceRun`: id, sourceId, trigger, status, startedAt, finishedAt, counters, correlationId; **no mode or date range**.
+- `SourceCheckpoint`: one row per source with activation baseline, cursor, lastRunId, updatedAt; UNIQUE(sourceId).
+- `Source`: add `activatedAt`, `baselineStrategy`, `baselineReference` as needed.
+- Keep `Edition`, `EditionDocument`, `DocumentVersion` and `EditionObservation`.
+- Do not create backfill tables, jobs or endpoints.
