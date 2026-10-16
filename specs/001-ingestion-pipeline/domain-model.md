@@ -50,3 +50,11 @@
 ## Context map
 Collection Operations → Publication Catalog → Document Archive → Content Processing → Monitoring (futuro).
 Integração por contratos explícitos; eventos devem ser idempotentes, versionados e rastreáveis.
+
+## Approved domain refinement
+- **Edition** is the principal aggregate, source-scoped and identified by canonical edition key.
+- **EditionDocument** is a logical attachment of an edition (MAIN, SUPPLEMENT, ANNEX, OTHER); each can have multiple **DocumentVersion** records.
+- **SourceRun.mode** is LIVE or BACKFILL. **SourceCoverage** describes verified historical interval coverage and gaps. **EditionObservation** associates editions with runs without duplication.
+- **Backfill** means bounded, resumable historical discovery; not a guarantee that official archives exist.
+- The old generic `Publication` term in technical drafts maps to `Edition` for this feature; future act-level modeling remains out of scope.
+- **Invariants:** edition identity shared across live/backfill; separate checkpoints; all eligible documents collected regardless of keywords; no destructive replacement of historical versions.
