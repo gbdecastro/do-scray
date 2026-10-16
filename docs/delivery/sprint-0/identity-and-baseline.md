@@ -41,3 +41,6 @@ Não inventar uma edição diária para CISMETRO sem evidência oficial. O agreg
 2. Baseline inicial: snapshot dos itens presentes ou edição mais recente, por fonte?
 3. Republicações de edições anteriores à ativação entram ou não?
 4. Fontes que publicam várias edições por dia: qual frequência mínima?
+
+## Decisão arquitetural superveniente
+A [ADR-012](../../architecture/decisions/ADR-012-canonical-publication.md) substitui `Edition` como agregado universal por `Publication`. As estratégias de identidade acima permanecem hipóteses por fonte e devem produzir `canonicalPublicationKey`. O caso CISMETRO deixa de ser uma exceção estrutural: poderá ser uma publicação do tipo CALL/NOTICE. O baseline LIVE continua específico de cada fonte.
