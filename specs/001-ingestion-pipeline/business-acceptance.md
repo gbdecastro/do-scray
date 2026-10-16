@@ -19,3 +19,14 @@ Fixtures de pelo menos uma fonte piloto, execução Docker local, consultas Post
 
 ## DoR de negócio
 Glossário aprovado, escopo por fonte definido, regras BR-001..BR-024 revisadas, perguntas bloqueantes resolvidas, cenários BS-001..BS-016 priorizados e critérios BA-001..BA-010 aprovados.
+
+## Gates adicionais — decisões aprovadas
+- **BA-011 — Edition:** edição é a unidade principal; múltiplos documentos podem ser associados sem colisão.
+- **BA-012 — All:** ingestão não depende de keywords e contempla todos os documentos elegíveis acessíveis do escopo.
+- **BA-013 — Backfill:** ao menos uma fonte piloto ingere um intervalo histórico por paginação/arquivo oficial com execução auditada.
+- **BA-014 — Overlap:** LIVE e BACKFILL simultâneos não duplicam edição, anexo ou versão.
+- **BA-015 — Coverage:** intervalos históricos completos, parciais e indisponíveis são distinguíveis com motivo e evidência.
+- **BA-016 — Resume:** backfill interrompido retoma sem avançar checkpoint indevidamente.
+- **BA-017 — Priority:** backfill limitado não impede processamento atual dentro das metas operacionais definidas.
+- **BA-018 — Multi-file:** PDF principal e suplemento persistidos separadamente sob a mesma edição.
+**Status:** decisões de produto aprovadas; execução dos gates ainda PENDING.
