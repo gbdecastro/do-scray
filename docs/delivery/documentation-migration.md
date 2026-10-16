@@ -1,47 +1,39 @@
-# Documentation reorganization plan
+# Registro de consolidação documental — Fase 0
 
-**Status:** DRAFT. **This document records the target and prevents premature destructive moves.** Current links remain valid until reviewed and replaced.
+**Status:** CONSOLIDATED — structural migration completed on branch `docs/saas-product-discovery`.
+**Scope:** documentation only; no application code or runtime tests changed.
 
-## Target taxonomy
-- `docs/product/`: vision, business model and product-level requirements.
-- `docs/architecture/`: system overview, data model, API guidelines and ADRs.
-- `docs/delivery/`: implementation plan, roadmap, sprint entry points and audit.
-- `docs/operations/`: production/local operations and legacy runbooks.
-- `docs/archive/`: superseded snapshots only; not active requirements.
-- `specs/`: authoritative feature specifications, contracts, tasks and evidence.
+## Resultado
+- `docs/README.md` é o índice principal.
+- `docs/product/`: visão, requisitos de discovery e modelo de negócio.
+- `docs/architecture/`: visão, modelo conceitual, diretrizes de API e ADRs.
+- `docs/delivery/`: plano de implementação, roadmap, backlog histórico e Sprint 0.
+- `docs/operations/legacy/`: seis runbooks operacionais legados.
+- `docs/archive/`: política de arquivamento.
+- `specs/`: fonte de verdade para requisitos funcionais, contratos, tarefas e evidências.
 
-## Inventory and proposed moves
-| Current file | Target path | Action |
-|---|---|---|
-| docs/saas/README.md | docs/product/vision.md (extract principles) | Review/merge |
-| docs/saas/PRD.md | docs/product/requirements.md | Review, avoid duplicating specs |
-| docs/saas/BUSINESS.md | docs/product/business-model.md | Review assumptions |
-| docs/saas/ARCHITECTURE.md | docs/architecture/overview.md | Review |
-| docs/saas/DATA-MODEL.md | docs/architecture/data-model.md | Mark conceptual; specs authoritative |
-| docs/saas/API-CONTRACTS.md | docs/architecture/api-guidelines.md | Avoid competing endpoint definitions |
-| docs/saas/ADRS.md | docs/architecture/decisions/README.md | Reconcile ADR index |
-| docs/saas/ADR-011-DOCKER-FIRST.md | docs/architecture/decisions/ADR-011-docker-first.md | Move unchanged after links updated |
-| docs/saas/BACKLOG.md | docs/delivery/legacy-backlog.md | Historical discovery; specs tasks current |
-| docs/saas/ROADMAP.md | docs/delivery/roadmap.md | Reconcile no-backfill scope |
-| docs/saas/SPRINT-0-AUDIT.md | docs/delivery/sprint-0/legacy-audit.md | Preserve audit observations |
-| docs/saas/SPRINT-0-INGESTION.md | docs/delivery/sprint-0/ingestion-design.md | Supersede backfill assumptions |
-| docs/automated-execution.md | docs/operations/legacy/automated-execution.md | Move with reference update |
-| docs/edition-library.md | docs/operations/legacy/edition-library.md | Move with reference update |
-| docs/execution-history.md | docs/operations/legacy/execution-history.md | Move with reference update |
-| docs/github-pages-dashboard.md | docs/operations/legacy/github-pages-dashboard.md | Move with reference update |
-| docs/persistent-state.md | docs/operations/legacy/persistent-state.md | Move with reference update |
-| docs/state-hardening.md | docs/operations/legacy/state-hardening.md | Move with reference update |
+## Migração de arquivos
+Os 12 arquivos anteriores em `docs/saas/` foram substituídos por redirecionamentos Markdown de compatibilidade para caminhos canônicos. Os seis runbooks anteriores na raiz de `docs/` também redirecionam para `docs/operations/legacy/`. O conteúdo de discovery foi preservado nos novos destinos, identificado como histórico e subordinado às specs.
 
-## Safe migration steps
-1. Inventory inbound links in README, AGENTS, workflows, specs and Markdown files.
-2. Reconcile obsolete backfill references and identify normative conflicts.
-3. Create destination files and update internal links in the **same reviewed change set**.
-4. Keep lightweight compatibility stubs at old paths where GitHub links may exist; do not duplicate full content.
-5. Validate Markdown relative links, index navigation and any docs build.
-6. Only then remove obsolete duplicates; retain history in Git.
+## Regras de precedência
+1. `AGENTS.md` e `specs/constitution.md` (quando aprovados).
+2. Specs de feature aprovadas, contratos e critérios de aceite.
+3. ADRs aprovadas.
+4. Plano de implementação e documentação de arquitetura.
+5. Discovery histórico e runbooks legados (somente contexto).
 
-## Documentation ownership
-Product: product lead. Architecture/ADRs: tech lead. Delivery: tech lead/engineering. Operations: runtime owner. Specs: feature owner and reviewer.
+**Sprint 0 atual:** EDITION + ALL + START FROM ZERO. Backfill não faz parte do escopo. Menções antigas a backfill nos documentos de discovery são históricas, não tarefas válidas.
 
-## Acceptance
-No broken internal links; one canonical owner per requirement/contract; all original docs accounted for; historical assumptions visibly labeled; no legacy behavior changed.
+## Validação realizada
+- Criação e atualização de destinos confirmadas pelo GitHub.
+- Links de navegação dos índices principais revisados e apontados para caminhos canônicos.
+- Redirecionamentos de compatibilidade criados nos 18 caminhos antigos.
+
+## Validação pendente
+- Um verificador automático de links relativos em todo o repositório ainda não foi executado.
+- Não houve execução de build, lint, testes ou workflows.
+- Links internos herdados dentro dos textos de discovery devem ser verificados pelo CI antes do merge.
+- Constituição, regras e specs ainda dependem de revisão/aprovação humana.
+
+## Gate da Fase 0
+**Estrutura documental consolidada; revisão automatizada de links e aprovação humana pendentes.** Não afirmar que CI ou documentação completa foram validados sem evidência.
