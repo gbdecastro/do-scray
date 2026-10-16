@@ -58,3 +58,10 @@ Integração por contratos explícitos; eventos devem ser idempotentes, versiona
 - **Backfill** means bounded, resumable historical discovery; not a guarantee that official archives exist.
 - The old generic `Publication` term in technical drafts maps to `Edition` for this feature; future act-level modeling remains out of scope.
 - **Invariants:** edition identity shared across live/backfill; separate checkpoints; all eligible documents collected regardless of keywords; no destructive replacement of historical versions.
+
+## Current domain decision — no historical backfill
+- **Edition** remains the publication aggregate, with EditionDocument and immutable DocumentVersion.
+- Only current `SourceRun` and one safe `SourceCheckpoint` per source are needed in Sprint 0.
+- `SourceCoverage`, BACKFILL mode and historical coverage intervals are out of scope.
+- Add source activation baseline as an explicit domain concept; do not promise data prior to activation.
+- The prior backfill refinement is superseded by this section.
