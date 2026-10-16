@@ -1,4 +1,4 @@
-> Documento de discovery migrado de `docs/saas/BUSINESS.md`. Especificações atuais em [specs](../../specs/); Sprint 0 sem backfill.
+> **Origem:** `docs/saas/BUSINESS.md`. **Status:** documento histórico de discovery; as especificações SDD vigentes prevalecem. Sprint 0: EDITION + ALL + START FROM ZERO; sem backfill.
 
 # Modelo de negócio e hipóteses
 
