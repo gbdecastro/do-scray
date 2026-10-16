@@ -27,3 +27,6 @@
 - **ALL:** ingerir todas as edições e documentos oficiais elegíveis acessíveis.
 - **BACKFILL:** ingestão histórica faz parte do escopo inicial, com cobertura e gaps explícitos.
 See `business-rules.md` for BR-025..BR-031 and `business-acceptance.md` for BA-011..BA-018. Other open questions remain in DRAFT.
+
+## Current decision — 2026-10-16
+**EDITION + ALL + START FROM ZERO**. No backfill in Sprint 0 or initial MVP. The previous BACKFILL decision is superseded. The scope is all eligible accessible official editions/documents **from each source's activation baseline forward**. Keep immutable versions and multi-file editions; use LIVE-only runs and safe checkpoints. Prior backfill references in older amendments are historical and not implementation requirements.
