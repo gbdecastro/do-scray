@@ -29,3 +29,13 @@ DB and object store are not a single transaction; use explicit states and period
 
 ## Verification
 Docker Compose integration tests, duplicate/republication fixtures, fault injection around upload/commit, extraction, status metrics and checkpoint invariants.
+
+## Refinement: edition / all / backfill
+- Make `Edition` the publication aggregate, `EditionDocument` the logical file attachment, and `DocumentVersion` the immutable bytes/hash. Distinguish edition key from document key.
+- Extend adapters with capabilities `supportsBackfill`, historical pagination/date-range discovery, stable edition IDs, and document roles (MAIN, SUPPLEMENT, ANNEX, OTHER).
+- Scheduler issues LIVE and BACKFILL runs independently; prioritize LIVE to avoid historical load delaying current publications.
+- Persist source-specific historical coverage intervals and gaps, plus independent LIVE cursor and BACKFILL cursor/range.
+- Ensure deduplication across modes and concurrent workers with DB unique constraints.
+- Implement bounded historical batches, rate limits, backoff and resumable checkpoints. Avoid fetching entire archives in one run.
+- Track discovered editions, documents and successful storage separately; a historical interval is complete only when all eligible items are durably accounted for.
+- Test multi-document edition, concurrent live/backfill overlap, changed attachment, inaccessible archive interval, and interruption/restart.
