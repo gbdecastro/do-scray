@@ -30,3 +30,12 @@ Glossário aprovado, escopo por fonte definido, regras BR-001..BR-024 revisadas,
 - **BA-017 — Priority:** backfill limitado não impede processamento atual dentro das metas operacionais definidas.
 - **BA-018 — Multi-file:** PDF principal e suplemento persistidos separadamente sob a mesma edição.
 **Status:** decisões de produto aprovadas; execução dos gates ainda PENDING.
+
+## Scope correction — acceptance
+**BA-013, BA-014, BA-015, BA-016, BA-017** (historical backfill, overlap, historical coverage, historical resume and priority) are **CANCELLED / OUT OF SCOPE**.
+**BA-011, BA-012, BA-018** remain (edition, all eligible current documents, multiple files).
+- **BA-019 — Activation baseline:** first collection records safe source-specific activation boundary.
+- **BA-020 — No historical import:** pre-baseline editions are not imported by default.
+- **BA-021 — Resume:** interrupted current collection resumes without losing post-activation editions.
+- **BA-022 — Temporal transparency:** product makes no claim of pre-activation coverage.
+All tests remain PENDING.
