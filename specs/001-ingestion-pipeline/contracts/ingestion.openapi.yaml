@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: Radar Público Internal Ingestion API
-  version: 0.2.0
-  description: Draft contract reflecting approved EDITION / ALL / BACKFILL business decisions. Not implemented.
+  version: 0.3.0
+  description: Draft LIVE-only ingestion contract. Edition + all eligible documents + start from activation baseline. Not implemented.
 servers:
   - url: /internal/v1
 security:
@@ -11,13 +11,18 @@ paths:
   /source-runs:
     post:
       operationId: startSourceRun
-      summary: Start a LIVE or BACKFILL source run
+      summary: Start current collection for an activated source
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StartSourceRun'
+              type: object
+              additionalProperties: false
+              required: [sourceId, trigger]
+              properties:
+                sourceId: { type: string }
+                trigger: { type: string, enum: [SCHEDULED, MANUAL, RETRY] }
       responses:
         '201':
           description: Run started
@@ -27,16 +32,14 @@ paths:
                 $ref: '#/components/schemas/SourceRun'
         '401': { description: Unauthenticated }
         '403': { description: Source not authorized }
-        '422': { description: Invalid mode or range }
   /source-runs/{runId}:
     get:
       operationId: getSourceRun
-      summary: Retrieve progress and failure counters
       parameters:
         - $ref: '#/components/parameters/RunId'
       responses:
         '200':
-          description: Run
+          description: Run details
           content:
             application/json:
               schema:
@@ -45,7 +48,7 @@ paths:
   /source-runs/{runId}/editions:
     post:
       operationId: ingestEditionManifest
-      summary: Idempotently register an edition with one or more logical documents
+      summary: Register an edition and its documents idempotently
       parameters:
         - $ref: '#/components/parameters/RunId'
       requestBody:
@@ -55,27 +58,25 @@ paths:
             schema:
               $ref: '#/components/schemas/EditionManifest'
       responses:
-        '200': { description: Existing edition or document versions observed }
-        '201': { description: New edition or document versions registered }
+        '200': { description: Already observed }
+        '201': { description: New edition or version }
         '401': { description: Unauthenticated }
-        '409': { description: Run state conflict }
-        '422': { description: Invalid edition or document manifest }
+        '409': { description: Invalid run state }
+        '422': { description: Invalid manifest }
   /document-versions/{versionId}/complete:
     post:
       operationId: completeDocumentUpload
-      summary: Confirm storage object integrity and SHA-256
       parameters:
         - name: versionId
           in: path
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Stored or already completed }
-        '409': { description: Missing object or checksum mismatch }
+        '200': { description: Object integrity confirmed }
+        '409': { description: Missing object or hash mismatch }
   /source-runs/{runId}/finish:
     post:
       operationId: finishSourceRun
-      summary: Finish a run without concealing partial coverage
       parameters:
         - $ref: '#/components/parameters/RunId'
       requestBody:
@@ -89,36 +90,8 @@ paths:
                 status: { type: string, enum: [SUCCEEDED, PARTIAL, FAILED, CANCELLED] }
                 errorCode: { type: [string, 'null'] }
       responses:
-        '200': { description: Run finalized and coverage updated }
-        '409': { description: Outstanding items require reconciliation }
-  /sources/{sourceId}/coverage:
-    get:
-      operationId: getSourceCoverage
-      summary: Get verified historical intervals and gaps
-      parameters:
-        - name: sourceId
-          in: path
-          required: true
-          schema: { type: string }
-        - name: from
-          in: query
-          schema: { type: string, format: date }
-        - name: to
-          in: query
-          schema: { type: string, format: date }
-      responses:
-        '200':
-          description: Coverage intervals
-          content:
-            application/json:
-              schema:
-                type: object
-                required: [intervals]
-                properties:
-                  intervals:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/CoverageInterval'
+        '200': { description: Run finalized }
+        '409': { description: Pending ingestion items }
 components:
   securitySchemes:
     serviceBearer:
@@ -131,38 +104,13 @@ components:
       required: true
       schema: { type: string }
   schemas:
-    StartSourceRun:
-      type: object
-      additionalProperties: false
-      required: [sourceId, trigger, mode]
-      properties:
-        sourceId: { type: string }
-        trigger: { type: string, enum: [SCHEDULED, MANUAL, RETRY] }
-        mode: { type: string, enum: [LIVE, BACKFILL] }
-        range:
-          anyOf:
-            - $ref: '#/components/schemas/DateRange'
-            - type: 'null'
-          description: Required for BACKFILL; forbidden for LIVE (application validation).
-    DateRange:
-      type: object
-      additionalProperties: false
-      required: [from, to]
-      properties:
-        from: { type: string, format: date }
-        to: { type: string, format: date }
     SourceRun:
       type: object
-      required: [runId, sourceId, mode, status]
+      required: [runId, sourceId, status]
       properties:
         runId: { type: string }
         sourceId: { type: string }
-        mode: { type: string, enum: [LIVE, BACKFILL] }
         status: { type: string, enum: [QUEUED, RUNNING, SUCCEEDED, PARTIAL, FAILED, CANCELLED] }
-        range:
-          anyOf:
-            - $ref: '#/components/schemas/DateRange'
-            - type: 'null'
         discoveredEditions: { type: integer, minimum: 0 }
         storedDocuments: { type: integer, minimum: 0 }
         failedDocuments: { type: integer, minimum: 0 }
@@ -194,12 +142,3 @@ components:
         sha256: { type: string, pattern: '^[a-fA-F0-9]{64}$' }
         sizeBytes: { type: integer, minimum: 1 }
         mimeType: { type: string, const: application/pdf }
-    CoverageInterval:
-      type: object
-      required: [from, to, status]
-      properties:
-        from: { type: string, format: date }
-        to: { type: string, format: date }
-        status: { type: string, enum: [COMPLETE, PARTIAL, UNAVAILABLE] }
-        reason: { type: [string, 'null'] }
-        lastRunId: { type: [string, 'null'] }
