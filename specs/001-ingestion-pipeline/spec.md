@@ -39,3 +39,18 @@ B2C auth, billing, tenant monitoring, matching, notification delivery and SaaS d
 
 ## Open questions
 Canonical identifiers by source; upload strategy (multipart vs signed URL); document retention; source access conditions; OCR resource limits.
+
+## Approved business decisions — 2026-10-15
+- **DEC-001 (edition):** The principal publication aggregate is the official **edition**, scoped to a source. An edition can contain zero or more document attachments (main PDF, supplements, annexes). Individual acts are not separate publication aggregates in Sprint 0.
+- **DEC-002 (all):** Collect **all eligible official editions and their accessible documents** within configured source scope, independent of keywords and subscribers. "All" does not authorize bypassing source access restrictions; inaccessible items must be accounted for as coverage gaps.
+- **DEC-003 (backfill):** Historical ingestion is in scope from the beginning. Each source defines supported historical range and pagination strategy; coverage must explicitly distinguish completed, partial and unavailable historical periods.
+- **FR-010:** Support distinct collection modes LIVE and BACKFILL with independent progress, checkpoints, retries and deduplication.
+- **FR-011:** Persist edition-to-document relationship, including multiple attachments and per-document immutable versions.
+- **FR-012:** Track historical coverage by source and date range, including gaps and failed intervals.
+- **AC-009:** Backfill and live ingestion of the same edition converge to one edition and document version per hash.
+- **AC-010:** An edition with main PDF and supplement preserves both logical documents.
+- **AC-011:** A failed historical interval is visible as a coverage gap and can be retried without resetting live checkpoint.
+- **AC-012:** An eligible edition outside the current/latest page is discovered by historical pagination when the source supports it.
+
+### Explicit boundaries
+Historical range is limited by official source availability, access policies, retention and capacity. The system must not promise exhaustive history when a source lacks accessible archives. Historical matching/notifications to customers are out of scope here.
