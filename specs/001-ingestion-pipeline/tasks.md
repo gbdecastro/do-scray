@@ -24,3 +24,11 @@
 - [ ] **T018 [FR-012, AC-011]** Add historical coverage reporting and gap retry tests; dependency T015/T016.
 - [ ] **T019 [AC-009, AC-010, AC-012]** Add golden fixtures for overlapping LIVE/BACKFILL runs and main PDF + supplement; dependency T014/T017.
 **Refinement note:** T002/T004/T008 must adopt the revised edition-document-version model; old single-document assumptions are superseded.
+
+## Scope correction — no backfill
+- **T014, T015, T016, T018, T019** from the backfill amendment are **CANCELLED / OUT OF SCOPE** (historical archive inventory, historical cursors, backfill scheduler, historical coverage, overlapping-mode tests).
+- **T013 and T017 remain** (edition/document/version model).
+- [ ] **T020 [FR-010, AC-011]** Define and implement per-source LIVE activation baseline and safe initial checkpoint.
+- [ ] **T021 [FR-012, AC-012]** Add tests for first-run boundary, older items visible on source pages and activation-time race conditions.
+- [ ] **T022 [AC-009]** Verify repeat LIVE runs are idempotent.
+- **T001/T002/T003/T004** must align with LIVE-only API and edition/document model.
