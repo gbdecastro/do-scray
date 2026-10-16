@@ -1,4 +1,4 @@
-> Histórico de discovery. Para requisitos executáveis consulte [specs](../../specs/). Sprint 0 não inclui backfill.
+> **Origem:** `docs/saas/PRD.md`. **Status:** documento histórico de discovery; as especificações SDD vigentes prevalecem. Sprint 0: EDITION + ALL + START FROM ZERO; sem backfill.
 
 # PRD v1.0 — Radar Público
 
