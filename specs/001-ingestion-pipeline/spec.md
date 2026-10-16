@@ -54,3 +54,15 @@ Canonical identifiers by source; upload strategy (multipart vs signed URL); docu
 
 ### Explicit boundaries
 Historical range is limited by official source availability, access policies, retention and capacity. The system must not promise exhaustive history when a source lacks accessible archives. Historical matching/notifications to customers are out of scope here.
+
+## Decision change — 2026-10-16: no backfill in Sprint 0
+**DEC-003 superseded:** Initial collection starts from the source activation baseline. Historical ingestion/backfill is **OUT OF SCOPE** for Sprint 0 and initial MVP. Only `LIVE` runs are permitted. Do not crawl older archives as a feature, do not expose historical coverage endpoints, and do not claim historical completeness. Existing source pages may contain older editions: the adapter must enforce a documented activation boundary and record skipped pre-baseline items without treating them as ingestion failures. All eligible editions from activation onward remain in scope, independent of keywords. Edition + multi-document + versioning decisions remain valid.
+
+**FR-010..FR-012 and AC-009..AC-012 from the earlier backfill amendment are superseded where they require BACKFILL or historical coverage.** Replace with:
+- **FR-010 (revised):** Only LIVE collection, with a safe per-source checkpoint and activation baseline.
+- **FR-011 (retained):** Edition contains multiple logical documents with immutable versions.
+- **FR-012 (revised):** Record source activation date, first-run baseline and freshness; do not imply historical coverage.
+- **AC-009 (revised):** Repeated LIVE collection converges to one edition/document/version per hash.
+- **AC-010 (retained):** Main PDF and supplement are distinct logical documents under one edition.
+- **AC-011 (revised):** Interrupted LIVE collection resumes without skipping eligible post-activation editions.
+- **AC-012 (revised):** Pre-activation items are not imported by default, and their exclusion is observable.
