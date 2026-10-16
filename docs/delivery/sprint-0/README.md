@@ -30,3 +30,9 @@ One real pilot edition ingested with integrity, re-run idempotency, safe checkpo
 - [Identidade e baseline de ativação](identity-and-baseline.md)
 
 **Estado:** auditoria estática realizada; validação externa e fixtures pendentes. CISMETRO pode exigir exceção ao agregado Edition.
+
+## Escalabilidade dos adaptadores
+- [Contrato de conformidade para novos crawlers](adapter-conformance.md)
+- [Modelo canônico de publicação](../../architecture/canonical-publication-model.md)
+
+**Revisão necessária:** documentos SDD anteriores usam `Edition` como agregado. A ADR-012 propõe substituí-lo por `Publication`; não implementar o contrato antigo antes da reconciliação.
