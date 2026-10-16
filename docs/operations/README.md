@@ -2,11 +2,11 @@
 
 Existing do-scray operations remain active until the SaaS pipeline is verified. The following runbooks are **LEGACY**, not evidence of the target architecture:
 
-- [Automated execution](../automated-execution.md)
-- [Edition library](../edition-library.md)
-- [Execution history](../execution-history.md)
-- [GitHub Pages dashboard](../github-pages-dashboard.md)
-- [Persistent state](../persistent-state.md)
-- [State hardening](../state-hardening.md)
+- [Automated execution](legacy/automated-execution.md)
+- [Edition library](legacy/edition-library.md)
+- [Execution history](legacy/execution-history.md)
+- [GitHub Pages dashboard](legacy/github-pages-dashboard.md)
+- [Persistent state](legacy/persistent-state.md)
+- [State hardening](legacy/state-hardening.md)
 
-[Migration plan](../delivery/documentation-migration.md) tracks their eventual relocation under `operations/legacy/`. Do not break GitHub Actions or GitHub Pages while reorganizing documentation.
+[Migration record](../delivery/documentation-migration.md) documents their relocation under `operations/legacy/`. Do not break GitHub Actions or GitHub Pages while reorganizing documentation.
