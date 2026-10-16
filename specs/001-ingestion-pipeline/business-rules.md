@@ -71,3 +71,16 @@ DISCOVERED → RECEIVED → STORED → EXTRACTED, com estados de falha/retry por
 - Critério de conclusão quando fonte apresenta paginação incompleta.
 - Política de alertas operacionais e frequência de coleta.
 - Regras para publicações com múltiplos anexos, suplementos e retificações.
+
+## Ratified decisions — edition / all / backfill
+- **DEC-001 — EDITION:** The edition is the principal business publication. Attachments/supplements belong to the edition; acts within PDFs are not independent publications in Sprint 0.
+- **DEC-002 — ALL:** Collect every eligible official edition and its available documents for configured sources, without keyword filtering. Explicitly record inaccessible/missing documents and do not misrepresent coverage.
+- **DEC-003 — BACKFILL:** Historical ingestion is part of Sprint 0. Per-source supported date ranges and archive capabilities must be inventoried before declaring historical coverage complete.
+- **BR-025:** LIVE and BACKFILL are separate execution modes with independently recoverable progress.
+- **BR-026:** An edition may contain multiple logical documents; each has its own immutable version history.
+- **BR-027:** Repeated discovery across LIVE and BACKFILL produces observations, not duplicate editions/documents/versions.
+- **BR-028:** Historical coverage must track date intervals as COMPLETE, PARTIAL or UNAVAILABLE with reason and last attempt.
+- **BR-029:** LIVE ingestion must not be starved by historical backfill; backfill is bounded, resumable and respectful of source limits.
+- **BR-030:** "All" means all eligible accessible items within approved source scope, not unlimited bypass or a guarantee of complete archives.
+- **BR-031:** Historical coverage is only COMPLETE when every discovered eligible edition/document in that interval has a durable outcome or an explicitly accepted exception.
+**Supersession:** any earlier text implying a single PDF per publication or backfill as a future-only enhancement is superseded by these decisions.
