@@ -58,11 +58,37 @@ paths:
             schema:
               $ref: '#/components/schemas/PublicationManifest'
       responses:
-        '200': { description: Already observed }
-        '201': { description: New edition or version }
+        '200':
+          description: Manifest accepted idempotently
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ManifestReceipt' }
+        '201':
+          description: Publication or version registered
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ManifestReceipt' }
         '401': { description: Unauthenticated }
         '409': { description: Invalid run state }
         '422': { description: Invalid manifest }
+  /document-versions/{versionId}/upload:
+    put:
+      operationId: uploadDocumentVersion
+      parameters:
+        - name: versionId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/pdf:
+            schema: { type: string, format: binary }
+      responses:
+        '200': { description: Bytes uploaded, verification pending }
+        '401': { description: Unauthenticated }
+        '413': { description: Payload too large }
+        '415': { description: Unsupported file type }
   /document-versions/{versionId}/complete:
     post:
       operationId: completeDocumentUpload
@@ -115,6 +141,20 @@ components:
         storedDocuments: { type: integer, minimum: 0 }
         failedDocuments: { type: integer, minimum: 0 }
         correlationId: { type: string }
+    ManifestReceipt:
+      type: object
+      required: [publicationId, documents]
+      properties:
+        publicationId: { type: string }
+        documents:
+          type: array
+          items:
+            type: object
+            required: [canonicalDocumentKey, versionId, uploadRequired]
+            properties:
+              canonicalDocumentKey: { type: string }
+              versionId: { type: string }
+              uploadRequired: { type: boolean }
     PublicationManifest:
       type: object
       additionalProperties: false
