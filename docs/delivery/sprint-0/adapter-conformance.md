@@ -39,3 +39,10 @@ Boituva, Indaiatuba, Sorocaba e CISMETRO devem implementar o mesmo contrato, com
 - [CI Coverage run](https://github.com/gbdecastro/do-scray/actions/runs/38841309226) iniciou automaticamente no push.
 - Limitação conhecida: fallback CISMETRO por URL não garante estabilidade se o portal alterar o link; é provisório até ID oficial/estratégia confiável.
 - **Não implementado:** pipeline de ingestão, upload, hash de PDF, persistência, checkpoints ou conformance end-to-end. A prova atual valida somente normalização/manifesto.
+
+## Etapa seguinte — contrato de adaptador v1
+- `diario_oficial/adapter_contract.py`: `SourceAdapter` (Protocol), `AdapterCapabilities`, `DiscoveryContext`, `DiscoveryBatch`, `validate_batch`.
+- `tests/test_adapter_conformance.py`: testes offline com dois adaptadores em memória que emitem EDITION e CALL no mesmo protocolo, além de cenários de fonte incorreta, duplicidade, tipo não declarado e checkpoint inseguro.
+- O contrato proíbe avanço de cursor em lotes incompletos e exige motivo de falha.
+- **Limite desta etapa:** os adaptadores em memória simulam fontes; os crawlers legados ainda não implementam diretamente o Protocol, e a engine/persistência ainda não existem.
+- **Execução:** arquivos publicados; suíte completa ainda não executada nem aprovada. Sem dependência do GitHub Actions para prosseguir com desenho e implementação.
