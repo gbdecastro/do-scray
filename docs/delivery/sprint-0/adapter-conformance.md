@@ -30,3 +30,12 @@
 
 ## Resultado do discovery
 Boituva, Indaiatuba, Sorocaba e CISMETRO devem implementar o mesmo contrato, com estratégias próprias de descoberta/identidade. Ainda falta validar HTML real e fixtures.
+
+## Primeira prova de contrato — 2026-10-16
+- Implementação experimental: `diario_oficial/canonical.py` (PublicationType, CanonicalPublication, CanonicalDocument, normalização e validação).
+- Fixtures sintéticas: `tests/test_canonical_contract.py`, usando parsers reais de Boituva e CISMETRO, sem HTTP externo.
+- Verificações isoladas de lógica canônica executadas localmente em ambiente de apoio: **5/5 PASS** (chave de edição, múltiplos documentos, rejeição de duplicidade, fallback por URL, ID oficial).
+- Integração com os parsers do repositório: publicada, aguardando execução do CI GitHub Actions; não afirmar PASS sem resultado.
+- [CI Coverage run](https://github.com/gbdecastro/do-scray/actions/runs/38841309226) iniciou automaticamente no push.
+- Limitação conhecida: fallback CISMETRO por URL não garante estabilidade se o portal alterar o link; é provisório até ID oficial/estratégia confiável.
+- **Não implementado:** pipeline de ingestão, upload, hash de PDF, persistência, checkpoints ou conformance end-to-end. A prova atual valida somente normalização/manifesto.
