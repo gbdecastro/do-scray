@@ -11,3 +11,7 @@ Technical direction and decisions. Feature-specific contracts and data model are
 
 ## Binding precedence
 Constitution → approved feature spec/acceptance → approved plan/contracts → ADR → product discovery. Raise discrepancies; do not silently choose.
+
+## Novo modelo canônico
+- [Modelo de Publication](canonical-publication-model.md)
+- [ADR-012 — Publication canônica](decisions/ADR-012-canonical-publication.md)
