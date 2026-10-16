@@ -85,3 +85,6 @@ Code + tests actually run + recorded evidence + Docker quickstart + migration/ro
 
 ## Open decisions before coding
 Pilot source, precise activation baseline for each adapter, retention policy, operational limits, upload mechanism and whether document extraction is synchronous in first vertical slice.
+
+## Ajuste de escopo — extensibilidade para 200+ crawlers
+Antes de DATA-001/DATA-002, revisar a Feature 001 para adotar `Publication → PublicationDocument → DocumentVersion` e um contrato de conformidade dos adaptadores. `Edition` é apenas um tipo de publicação. Ver [ADR-012](../architecture/decisions/ADR-012-canonical-publication.md) e [conformidade](sprint-0/adapter-conformance.md). Não codificar a API `/editions` antiga sem revisão.
