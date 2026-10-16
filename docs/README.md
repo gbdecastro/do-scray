@@ -21,4 +21,4 @@
 - `ARCHIVED`: retained for provenance; never use as current requirements.
 
 ## Documentation migration
-The prior `docs/saas/` folder and root legacy runbooks are retained temporarily for stable links and review. [Migration plan](delivery/documentation-migration.md) records the source-to-destination mapping. Do not copy competing normative requirements into multiple locations.
+The prior `docs/saas/` folder and root legacy runbooks now contain compatibility links to canonical destinations. [Migration plan](delivery/documentation-migration.md) records the source-to-destination mapping. Do not copy competing normative requirements into multiple locations.
