@@ -48,7 +48,7 @@ paths:
   /source-runs/{runId}/publications:
     post:
       operationId: ingestPublicationManifest
-      summary: Register an edition and its documents idempotently
+      summary: Register a canonical publication and its documents idempotently
       parameters:
         - $ref: '#/components/parameters/RunId'
       requestBody:
@@ -98,7 +98,7 @@ paths:
           required: true
           schema: { type: string }
       responses:
-        '200': { description: Object integrity confirmed }
+        '200': { description: Object integrity verified server-side against declared SHA-256 }
         '409': { description: Missing object or hash mismatch }
   /source-runs/{runId}/finish:
     post:
@@ -164,6 +164,8 @@ components:
         canonicalPublicationKey: { type: string, minLength: 1 }
         publicationType: { type: string, enum: [EDITION, CALL, NOTICE, BULLETIN, OTHER] }
         editionNumber: { type: [string, 'null'] }
+        externalId: { type: [string, 'null'] }
+        series: { type: [string, 'null'] }
         title: { type: string, minLength: 1 }
         publishedAt: { type: [string, 'null'], format: date-time }
         officialUrl: { type: string, format: uri }
