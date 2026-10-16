@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Radar Público Internal Ingestion API
+  version: 0.1.0
+  description: Draft contract; not implemented.
+servers:
+  - url: /internal/v1
+security:
+  - serviceBearer: []
+paths:
+  /source-runs:
+    post:
+      operationId: startSourceRun
+      summary: Start an auditable source run
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sourceId, trigger]
+              properties:
+                sourceId: { type: string }
+                trigger: { type: string, enum: [SCHEDULED, MANUAL, RETRY] }
+      responses:
+        '201':
+          description: Run started
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [runId, status]
+                properties:
+                  runId: { type: string }
+                  status: { type: string, const: RUNNING }
+        '401': { description: Unauthenticated }
+        '403': { description: Source not authorized }
+  /source-runs/{runId}/publications:
+    post:
+      operationId: ingestPublicationManifest
+      summary: Idempotently register publication and document version metadata
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicationManifest'
+      responses:
+        '200': { description: Existing publication/version }
+        '201': { description: New publication/version registered }
+        '401': { description: Unauthenticated }
+        '409': { description: Conflicting run state }
+        '422': { description: Invalid manifest }
+  /document-versions/{versionId}/complete:
+    post:
+      operationId: completeDocumentUpload
+      summary: Confirm uploaded bytes and hash
+      parameters:
+        - name: versionId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Stored or already completed }
+        '409': { description: Missing object or checksum mismatch }
+  /source-runs/{runId}/finish:
+    post:
+      operationId: finishSourceRun
+      summary: Finalize run after durable ingestion
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Run finalized }
+        '409': { description: Outstanding items require reconciliation }
+components:
+  securitySchemes:
+    serviceBearer:
+      type: http
+      scheme: bearer
+  schemas:
+    PublicationManifest:
+      type: object
+      additionalProperties: false
+      required: [sourceId, canonicalKey, title, canonicalUrl, document]
+      properties:
+        sourceId: { type: string }
+        externalId: { type: [string, 'null'] }
+        canonicalKey: { type: string, minLength: 1 }
+        title: { type: string, minLength: 1 }
+        edition: { type: [string, 'null'] }
+        publishedAt: { type: [string, 'null'], format: date-time }
+        canonicalUrl: { type: string, format: uri }
+        document:
+          type: object
+          additionalProperties: false
+          required: [sha256, sizeBytes, mimeType]
+          properties:
+            sha256: { type: string, pattern: '^[a-fA-F0-9]{64}$' }
+            sizeBytes: { type: integer, minimum: 1 }
+            mimeType: { type: string, const: application/pdf }
