@@ -21,3 +21,9 @@
 
 ## Fonte de contexto
 `docs/saas/SPRINT-0-AUDIT.md` e `docs/saas/SPRINT-0-INGESTION.md`.
+
+## Product decisions approved
+- **EDITION:** edição é a publicação principal; documentos e suplementos são filhos.
+- **ALL:** ingerir todas as edições e documentos oficiais elegíveis acessíveis.
+- **BACKFILL:** ingestão histórica faz parte do escopo inicial, com cobertura e gaps explícitos.
+See `business-rules.md` for BR-025..BR-031 and `business-acceptance.md` for BA-011..BA-018. Other open questions remain in DRAFT.
