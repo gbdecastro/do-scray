@@ -84,3 +84,15 @@ DISCOVERED → RECEIVED → STORED → EXTRACTED, com estados de falha/retry por
 - **BR-030:** "All" means all eligible accessible items within approved source scope, not unlimited bypass or a guarantee of complete archives.
 - **BR-031:** Historical coverage is only COMPLETE when every discovered eligible edition/document in that interval has a durable outcome or an explicitly accepted exception.
 **Supersession:** any earlier text implying a single PDF per publication or backfill as a future-only enhancement is superseded by these decisions.
+
+## Revised product decision — 2026-10-16
+**DEC-003 = START FROM ZERO.** Historical backfill is explicitly excluded from Sprint 0 and MVP. Each source starts accumulating editions from its activation baseline. Older editions are not imported by default; the product must not imply complete historical coverage.
+
+**BR-025, BR-027, BR-028, BR-029, BR-030, BR-031 from the prior backfill amendment are superseded insofar as they concern BACKFILL, historical coverage or mode overlap.** Replacement:
+- **BR-025R:** Only current collection runs are scheduled; no historical backfill.
+- **BR-027R:** Repeated LIVE observations are deduplicated.
+- **BR-028R:** Each source records activation boundary and known limitations; history before activation is outside coverage.
+- **BR-029R:** The first run establishes a safe baseline without losing new editions published during activation.
+- **BR-030R:** ALL means all eligible accessible editions from the activation baseline onward, not historical archives.
+- **BR-031R:** A LIVE run can be SUCCEEDED only after eligible discovered items are durably accounted for.
+**BR-026 remains valid:** one edition may contain multiple documents and immutable versions.
