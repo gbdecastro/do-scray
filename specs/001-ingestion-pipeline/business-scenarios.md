@@ -44,3 +44,13 @@
 | BS-022 | Backfill extenso está ativo | Surge nova edição atual | LIVE recebe prioridade operacional |
 | BS-023 | Suplemento é republicado | Novo hash do mesmo anexo é ingerido | Nova versão do suplemento; PDF principal não muda |
 | BS-024 | Fonte não oferece arquivo retroativo | Fonte é avaliada | Capacidade/limitação registrada; nenhuma promessa de cobertura total |
+
+## Scope correction — scenarios
+**BS-017, BS-018, BS-020, BS-021, BS-022, BS-024** from the backfill amendment are **OUT OF SCOPE**.
+**BS-019 and BS-023** remain applicable to current collection (supplements and new versions).
+| ID | Dado | Quando | Então |
+|---|---|---|---|
+| BS-025 | Fonte é ativada hoje e portal lista edições antigas | Primeiro ciclo começa | Baseline é registrado e edições anteriores são ignoradas sem falso erro |
+| BS-026 | Edição é publicada durante ativação | Baseline é estabelecido | Não há lacuna entre ativação e primeira coleta |
+| BS-027 | Crawler falha após armazenar parte das edições atuais | Nova execução ocorre | Retoma do checkpoint seguro, sem duplicação |
+| BS-028 | Fonte é ativada sem histórico importado | Cliente consulta acervo | Escopo temporal começa na ativação, sem alegar completude retroativa |
