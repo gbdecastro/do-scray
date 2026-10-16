@@ -30,3 +30,6 @@ See `business-rules.md` for BR-025..BR-031 and `business-acceptance.md` for BA-0
 
 ## Current decision — 2026-10-16
 **EDITION + ALL + START FROM ZERO**. No backfill in Sprint 0 or initial MVP. The previous BACKFILL decision is superseded. The scope is all eligible accessible official editions/documents **from each source's activation baseline forward**. Keep immutable versions and multi-file editions; use LIVE-only runs and safe checkpoints. Prior backfill references in older amendments are historical and not implementation requirements.
+
+## Mudança de arquitetura proposta — ADR-012
+O modelo `Edition` universal deste conjunto de specs precisa ser revisado para `Publication` canônica, suportando EDITION/CALL/NOTICE e outros tipos. Veja [ADR-012](../../docs/architecture/decisions/ADR-012-canonical-publication.md). **O contrato OpenAPI atual e as tarefas que usam `Edition` não estão aprovados para implementação até reconciliação.** O escopo continua ALL + START FROM ZERO, sem backfill.
