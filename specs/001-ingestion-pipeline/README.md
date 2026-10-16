@@ -1,35 +1,27 @@
-# Feature 001 — Ingestão e governança de dados
+# Feature 001 — Canonical publication ingestion
 
-**Status:** DRAFT. Esta é a primeira feature SDD da Sprint 0.
+**Status:** DRAFT | **Version:** 0.4 | **ADR:** [012](../../docs/architecture/decisions/ADR-012-canonical-publication.md)
 
-## Leia nesta ordem
-1. [Regras de negócio](business-rules.md)
-2. [Modelo de domínio e glossário](domain-model.md)
-3. [Cenários de negócio](business-scenarios.md)
-4. [Aceite de negócio](business-acceptance.md)
-5. [Especificação funcional](spec.md)
-6. [Plano técnico](plan.md)
-7. [Modelo lógico de persistência](data-model.md)
-8. [Contrato de API](contracts/ingestion.openapi.yaml)
-9. [Backlog técnico](tasks.md)
-10. [Evidências de execução](acceptance.md)
+## Current business decisions
+- **PUBLICATION:** universal aggregate; EDITION, CALL, NOTICE, BULLETIN and OTHER are types.
+- **ALL:** ingest every eligible accessible publication and document independent of keywords.
+- **START FROM ZERO:** collect from per-source activation baseline forward; no historical backfill.
 
-## Separação de responsabilidades
-- Documentos de negócio definem o comportamento esperado, independentemente da stack.
-- Documentos técnicos definem como atender o comportamento com Docker, PostgreSQL, MinIO e serviços.
-- Nenhum documento DRAFT autoriza implementação automática; aprovar primeiro regras, cenários e contratos.
+## Read in order
+1. [Business rules](business-rules.md)
+2. [Domain model](domain-model.md)
+3. [Business scenarios](business-scenarios.md)
+4. [Business acceptance](business-acceptance.md)
+5. [Functional spec](spec.md)
+6. [Technical plan](plan.md)
+7. [Logical data model](data-model.md)
+8. [OpenAPI 0.4.0](contracts/ingestion.openapi.yaml)
+9. [Tasks](tasks.md)
+10. [Test evidence](acceptance.md)
 
-## Fonte de contexto
-`docs/saas/SPRINT-0-AUDIT.md` e `docs/saas/SPRINT-0-INGESTION.md`.
+## Architecture and discovery
+- [Canonical model](../../docs/architecture/canonical-publication-model.md)
+- [Adapter conformance](../../docs/delivery/sprint-0/adapter-conformance.md)
+- [Static crawler audit](../../docs/delivery/sprint-0/source-audit.md)
 
-## Product decisions approved
-- **EDITION:** edição é a publicação principal; documentos e suplementos são filhos.
-- **ALL:** ingerir todas as edições e documentos oficiais elegíveis acessíveis.
-- **BACKFILL:** ingestão histórica faz parte do escopo inicial, com cobertura e gaps explícitos.
-See `business-rules.md` for BR-025..BR-031 and `business-acceptance.md` for BA-011..BA-018. Other open questions remain in DRAFT.
-
-## Current decision — 2026-10-16
-**EDITION + ALL + START FROM ZERO**. No backfill in Sprint 0 or initial MVP. The previous BACKFILL decision is superseded. The scope is all eligible accessible official editions/documents **from each source's activation baseline forward**. Keep immutable versions and multi-file editions; use LIVE-only runs and safe checkpoints. Prior backfill references in older amendments are historical and not implementation requirements.
-
-## Mudança de arquitetura proposta — ADR-012
-O modelo `Edition` universal deste conjunto de specs precisa ser revisado para `Publication` canônica, suportando EDITION/CALL/NOTICE e outros tipos. Veja [ADR-012](../../docs/architecture/decisions/ADR-012-canonical-publication.md). **O contrato OpenAPI atual e as tarefas que usam `Edition` não estão aprovados para implementação até reconciliação.** O escopo continua ALL + START FROM ZERO, sem backfill.
+No feature document is approved for implementation until reviewed. Existing crawlers remain unchanged.
