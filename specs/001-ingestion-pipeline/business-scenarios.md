@@ -32,3 +32,15 @@
 8. Precisamos guardar observações individuais ou somente agregados por execução?
 9. Qual semântica de cancelamento e reexecução manual?
 10. Qual regra de elegibilidade para links HTML sem PDF?
+
+## Additional approved-decision scenarios
+| ID | Dado | Quando | Então |
+|---|---|---|---|
+| BS-017 | Edição histórica não vista na página atual | Backfill percorre arquivo oficial acessível | Edição e documentos são registrados |
+| BS-018 | LIVE e BACKFILL encontram mesma edição | Ambos ingerem o mesmo hash | Uma edição, um documento e uma versão; duas observações |
+| BS-019 | Edição tem PDF principal e suplemento | Ambos são descobertos | Dois EditionDocument vinculados à mesma Edition |
+| BS-020 | Histórico tem lacuna inacessível | Backfill encontra erro de acesso | Intervalo PARTIAL/UNAVAILABLE e motivo, sem falsa completude |
+| BS-021 | Backfill é interrompido | Execução é retomada | Retoma do checkpoint seguro, sem perda nem duplicata |
+| BS-022 | Backfill extenso está ativo | Surge nova edição atual | LIVE recebe prioridade operacional |
+| BS-023 | Suplemento é republicado | Novo hash do mesmo anexo é ingerido | Nova versão do suplemento; PDF principal não muda |
+| BS-024 | Fonte não oferece arquivo retroativo | Fonte é avaliada | Capacidade/limitação registrada; nenhuma promessa de cobertura total |
