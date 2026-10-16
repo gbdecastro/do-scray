@@ -30,7 +30,7 @@ Os 12 arquivos anteriores em `docs/saas/` foram substituídos por redirecionamen
 - Redirecionamentos de compatibilidade criados nos 18 caminhos antigos.
 
 ## Validação pendente
-- Um verificador automático de links relativos em todo o repositório ainda não foi executado.
+- Links Markdown relativos dos dez principais índices e entradas documentais foram verificados contra o inventário de destinos, sem referências não resolvidas. Ainda falta validação automática em todo o repositório.
 - Não houve execução de build, lint, testes ou workflows.
 - Links internos herdados dentro dos textos de discovery devem ser verificados pelo CI antes do merge.
 - Constituição, regras e specs ainda dependem de revisão/aprovação humana.
