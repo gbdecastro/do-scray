@@ -1,4 +1,4 @@
-> Documento de discovery migrado de `docs/saas/ARCHITECTURE.md`. Especificações atuais em [specs](../../specs/); Sprint 0 sem backfill.
+> **Origem:** `docs/saas/ARCHITECTURE.md`. **Status:** documento histórico de discovery; as especificações SDD vigentes prevalecem. Sprint 0: EDITION + ALL + START FROM ZERO; sem backfill.
 
 # Arquitetura técnica proposta
 
