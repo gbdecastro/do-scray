@@ -1,0 +1,16 @@
+# Tasks — 001 Ingestion pipeline
+
+**Status:** DRAFT; no implementation completed.
+
+- [ ] **T001 [FR-002, AC-001]** Inventory identity/edition semantics for Boituva, Sorocaba, Indaiatuba, Cismetro; deliver mapping table and fixtures.
+- [ ] **T002 [FR-001, FR-003, AC-001]** Define schema and PostgreSQL migrations; dependency T001.
+- [ ] **T003 [FR-002, FR-008, AC-007]** Define versioned internal ingestion OpenAPI and service auth; dependency T001.
+- [ ] **T004 [FR-003, FR-004, AC-001, AC-002]** Implement publication/version upsert and unique constraints; dependencies T002/T003.
+- [ ] **T005 [FR-003, NFR-003, AC-001]** Implement safe PDF transfer, storage and SHA-256 verification; dependencies T003/T004.
+- [ ] **T006 [FR-006, AC-008]** Implement extraction worker and state updates; dependency T005.
+- [ ] **T007 [FR-007, AC-005, AC-006]** Implement reconciler, retries, source_run finalization and checkpoint safety; dependencies T004/T005.
+- [ ] **T008 [FR-005, AC-003]** Implement immutable document versioning; dependencies T004/T005.
+- [ ] **T009 [FR-002, AC-004]** Adapt one source to ingest without keyword filtering; dependencies T001/T003/T005.
+- [ ] **T010 [NFR-001, AC-001]** Docker Compose integration and quickstart; dependency 000 foundation.
+- [ ] **T011 [FR-009, NFR-005]** Instrument run-to-object traceability and source health; dependencies T002/T007.
+- [ ] **T012 [AC-001..AC-008]** Golden dataset and fault-injection integration tests; dependencies T004–T011.
