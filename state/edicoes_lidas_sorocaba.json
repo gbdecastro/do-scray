@@ -131,7 +131,27 @@
       "source_name": "Sorocaba",
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4060-20-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4061-21-DE-OUTUBRO-DE-2026-Parecer-Juridico-Referencial.pdf": {
+      "checked_at": "2026-10-22T00:30:19",
+      "date": "21 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4061",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4061-21-DE-OUTUBRO-DE-2026-Parecer-Juridico-Referencial.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4061-21-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-22T00:30:19",
+      "date": "21 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4061",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4061-21-DE-OUTUBRO-DE-2026.pdf"
     }
   },
-  "updated_at": "2026-10-21T00:26:57"
+  "updated_at": "2026-10-22T00:30:19"
 }
