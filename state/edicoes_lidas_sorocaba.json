@@ -151,7 +151,27 @@
       "source_name": "Sorocaba",
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4061-21-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4062-22-DE-OUTUBRO-DE-2026-Edital-de-Chamamento-08_2026-Conselho-Municipal-de-Protecao-e-Bem-Estar-Animal-CMPBEA.pdf": {
+      "checked_at": "2026-10-23T00:28:03",
+      "date": "22 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4062",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4062-22-DE-OUTUBRO-DE-2026-Edital-de-Chamamento-08_2026-Conselho-Municipal-de-Protecao-e-Bem-Estar-Animal-CMPBEA.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4062-22-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-23T00:28:04",
+      "date": "22 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4062",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4062-22-DE-OUTUBRO-DE-2026.pdf"
     }
   },
-  "updated_at": "2026-10-22T00:30:19"
+  "updated_at": "2026-10-23T00:28:04"
 }
