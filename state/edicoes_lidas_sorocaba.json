@@ -171,7 +171,27 @@
       "source_name": "Sorocaba",
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4062-22-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4063-23-DE-OUTUBRO-DE-2026-Balancete-de-Receita-e-Despesa-Setembro-26.pdf": {
+      "checked_at": "2026-10-24T00:22:49",
+      "date": "23 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4063",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4063-23-DE-OUTUBRO-DE-2026-Balancete-de-Receita-e-Despesa-Setembro-26.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4063-23-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-24T00:22:50",
+      "date": "23 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4063",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4063-23-DE-OUTUBRO-DE-2026.pdf"
     }
   },
-  "updated_at": "2026-10-23T00:28:04"
+  "updated_at": "2026-10-24T00:22:50"
 }
