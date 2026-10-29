@@ -211,7 +211,17 @@
       "source_name": "Sorocaba",
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4065-27-DE-OUTUBRO-DE-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4066-28-DE-OUTUBRO-DE-2026.pdf": {
+      "checked_at": "2026-10-29T01:39:17",
+      "date": "28 DE OUTUBRO DE 2026",
+      "matched_terms": [],
+      "number": "4066",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/10/4066-28-DE-OUTUBRO-DE-2026.pdf"
     }
   },
-  "updated_at": "2026-10-28T01:03:31"
+  "updated_at": "2026-10-29T01:39:17"
 }
