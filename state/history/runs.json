@@ -1182,5 +1182,55 @@
         }
       }
     ]
+  },
+  {
+    "schema_version": 1,
+    "started_at": "2026-11-03T03:22:28+00:00",
+    "finished_at": "2026-11-03T03:22:31+00:00",
+    "status": "partial_failure",
+    "crawlers": [
+      {
+        "name": "cismetro",
+        "status": "failed",
+        "exit_code": 1,
+        "started_at": "2026-11-03T03:22:28+00:00",
+        "finished_at": "2026-11-03T03:22:28+00:00",
+        "duration_seconds": 0.342,
+        "metrics": null
+      },
+      {
+        "name": "boituva",
+        "status": "failed",
+        "exit_code": 1,
+        "started_at": "2026-11-03T03:22:28+00:00",
+        "finished_at": "2026-11-03T03:22:29+00:00",
+        "duration_seconds": 0.85,
+        "metrics": null
+      },
+      {
+        "name": "indaiatuba",
+        "status": "failed",
+        "exit_code": 1,
+        "started_at": "2026-11-03T03:22:29+00:00",
+        "finished_at": "2026-11-03T03:22:30+00:00",
+        "duration_seconds": 0.845,
+        "metrics": null
+      },
+      {
+        "name": "sorocaba",
+        "status": "success",
+        "exit_code": 0,
+        "started_at": "2026-11-03T03:22:30+00:00",
+        "finished_at": "2026-11-03T03:22:31+00:00",
+        "duration_seconds": 1.127,
+        "metrics": {
+          "processed": 0,
+          "skipped": 9,
+          "match": 0,
+          "no_match": 0,
+          "errors": 0
+        }
+      }
+    ]
   }
 ]
