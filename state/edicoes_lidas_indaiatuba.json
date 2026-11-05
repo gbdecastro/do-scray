@@ -279,7 +279,27 @@
       "source_name": "Indaiatuba",
       "status": "no_match",
       "url": "https://www.indaiatuba.sp.gov.br/download/73427/"
+    },
+    "3758": {
+      "checked_at": "2026-11-05T02:02:57",
+      "date": "04/11/2026",
+      "matched_terms": [],
+      "number": "3758",
+      "saved_pdf": null,
+      "source_name": "Indaiatuba",
+      "status": "no_match",
+      "url": "https://www.indaiatuba.sp.gov.br/download/73438/"
+    },
+    "3759": {
+      "checked_at": "2026-11-05T02:02:56",
+      "date": "04/11/2026",
+      "matched_terms": [],
+      "number": "3759",
+      "saved_pdf": null,
+      "source_name": "Indaiatuba",
+      "status": "no_match",
+      "url": "https://www.indaiatuba.sp.gov.br/download/73440/"
     }
   },
-  "updated_at": "2026-11-04T02:00:12"
+  "updated_at": "2026-11-05T02:02:57"
 }
