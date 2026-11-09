@@ -325,7 +325,17 @@
       "source_name": "Sorocaba",
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/ESCALA-URGENCIA-E-EMERGENCIA.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/dec31456-2026-1.pdf": {
+      "checked_at": "2026-11-09T01:30:36",
+      "date": "07 de novembro de 2026",
+      "matched_terms": [],
+      "number": "4072",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/dec31456-2026-1.pdf"
     }
   },
-  "updated_at": "2026-11-08T01:12:26"
+  "updated_at": "2026-11-09T01:30:36"
 }
