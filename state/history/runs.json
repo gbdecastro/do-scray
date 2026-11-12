@@ -1680,5 +1680,61 @@
         }
       }
     ]
+  },
+  {
+    "schema_version": 1,
+    "started_at": "2026-11-12T02:45:28+00:00",
+    "finished_at": "2026-11-12T02:45:38+00:00",
+    "status": "partial_failure",
+    "crawlers": [
+      {
+        "name": "cismetro",
+        "status": "failed",
+        "exit_code": 1,
+        "started_at": "2026-11-12T02:45:28+00:00",
+        "finished_at": "2026-11-12T02:45:29+00:00",
+        "duration_seconds": 0.379,
+        "metrics": null
+      },
+      {
+        "name": "boituva",
+        "status": "failed",
+        "exit_code": 1,
+        "started_at": "2026-11-12T02:45:29+00:00",
+        "finished_at": "2026-11-12T02:45:29+00:00",
+        "duration_seconds": 0.312,
+        "metrics": null
+      },
+      {
+        "name": "indaiatuba",
+        "status": "success",
+        "exit_code": 0,
+        "started_at": "2026-11-12T02:45:29+00:00",
+        "finished_at": "2026-11-12T02:45:32+00:00",
+        "duration_seconds": 3.187,
+        "metrics": {
+          "processed": 1,
+          "skipped": 9,
+          "match": 0,
+          "no_match": 1,
+          "errors": 0
+        }
+      },
+      {
+        "name": "sorocaba",
+        "status": "success",
+        "exit_code": 0,
+        "started_at": "2026-11-12T02:45:32+00:00",
+        "finished_at": "2026-11-12T02:45:38+00:00",
+        "duration_seconds": 5.934,
+        "metrics": {
+          "processed": 4,
+          "skipped": 5,
+          "match": 0,
+          "no_match": 4,
+          "errors": 0
+        }
+      }
+    ]
   }
 ]

@@ -304,6 +304,46 @@
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4074-10-DE-NOVEMBRO-DE-2026.pdf"
     },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4075-11-DE-NOVEMBRO-DE-2026-1.pdf": {
+      "checked_at": "2026-11-12T02:45:35",
+      "date": "11 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4075",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4075-11-DE-NOVEMBRO-DE-2026-1.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-No-73-2026-CLASS-FINAL-PEB-I-E-II-REMOCAO-2026-2027.pdf": {
+      "checked_at": "2026-11-12T02:45:34",
+      "date": "11 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4075",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-No-73-2026-CLASS-FINAL-PEB-I-E-II-REMOCAO-2026-2027.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-no-74-2026-RELACAO-DE-VAGAS-INICIAIS-DOCENTES-REMOCAO-2026.pdf": {
+      "checked_at": "2026-11-12T02:45:34",
+      "date": "11 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4075",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-no-74-2026-RELACAO-DE-VAGAS-INICIAIS-DOCENTES-REMOCAO-2026.pdf"
+    },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-no-75-2026-RELACAO-DE-VAGAS-POTENCIAIS-DOCENTES-REMOCAO-2026.pdf": {
+      "checked_at": "2026-11-12T02:45:34",
+      "date": "11 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4075",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-no-75-2026-RELACAO-DE-VAGAS-POTENCIAIS-DOCENTES-REMOCAO-2026.pdf"
+    },
     "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/ESCALA-UNIDADES-BASICAS-ENFERMAGEM-1.pdf": {
       "checked_at": "2026-11-06T02:05:03",
       "date": "05 DE NOVEMBRO DE 2026",
@@ -367,5 +407,5 @@
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/dec31456-2026-1.pdf"
     }
   },
-  "updated_at": "2026-11-11T01:45:42"
+  "updated_at": "2026-11-12T02:45:35"
 }
