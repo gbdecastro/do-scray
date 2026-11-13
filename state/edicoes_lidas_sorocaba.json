@@ -314,6 +314,16 @@
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4075-11-DE-NOVEMBRO-DE-2026-1.pdf"
     },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4076-12-DE-NOVEMBRO-DE-2026.pdf": {
+      "checked_at": "2026-11-13T02:28:46",
+      "date": "12 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4076",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4076-12-DE-NOVEMBRO-DE-2026.pdf"
+    },
     "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-No-73-2026-CLASS-FINAL-PEB-I-E-II-REMOCAO-2026-2027.pdf": {
       "checked_at": "2026-11-12T02:45:34",
       "date": "11 DE NOVEMBRO DE 2026",
@@ -386,6 +396,16 @@
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/ESCALA-URGENCIA-E-EMERGENCIA.pdf"
     },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/Edital-de-Chamamento-fomento-ultimo-natal.pdf": {
+      "checked_at": "2026-11-13T02:28:46",
+      "date": "12 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4076",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/Edital-de-Chamamento-fomento-ultimo-natal.pdf"
+    },
     "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/dec31437-2026.pdf": {
       "checked_at": "2026-11-11T01:45:41",
       "date": "10 DE NOVEMBRO DE 2026",
@@ -407,5 +427,5 @@
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/dec31456-2026-1.pdf"
     }
   },
-  "updated_at": "2026-11-12T02:45:35"
+  "updated_at": "2026-11-13T02:28:46"
 }
