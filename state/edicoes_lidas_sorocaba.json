@@ -324,6 +324,16 @@
       "status": "no_match",
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4076-12-DE-NOVEMBRO-DE-2026.pdf"
     },
+    "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4077-13-DE-NOVEMBRO-DE-2026.pdf": {
+      "checked_at": "2026-11-14T02:02:47",
+      "date": "13 DE NOVEMBRO DE 2026",
+      "matched_terms": [],
+      "number": "4077",
+      "saved_pdf": null,
+      "source_name": "Sorocaba",
+      "status": "no_match",
+      "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/4077-13-DE-NOVEMBRO-DE-2026.pdf"
+    },
     "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/COMUNICADO-SEDU-GS-No-73-2026-CLASS-FINAL-PEB-I-E-II-REMOCAO-2026-2027.pdf": {
       "checked_at": "2026-11-12T02:45:34",
       "date": "11 DE NOVEMBRO DE 2026",
@@ -427,5 +437,5 @@
       "url": "https://noticias.sorocaba.sp.gov.br/wp-content/uploads/2026/11/dec31456-2026-1.pdf"
     }
   },
-  "updated_at": "2026-11-13T02:28:46"
+  "updated_at": "2026-11-14T02:02:47"
 }
