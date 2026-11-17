@@ -399,7 +399,17 @@
       "source_name": "Indaiatuba",
       "status": "no_match",
       "url": "https://www.indaiatuba.sp.gov.br/download/73510/"
+    },
+    "3770": {
+      "checked_at": "2026-11-17T04:22:32",
+      "date": "16/11/2026",
+      "matched_terms": [],
+      "number": "3770",
+      "saved_pdf": null,
+      "source_name": "Indaiatuba",
+      "status": "no_match",
+      "url": "https://www.indaiatuba.sp.gov.br/download/73519/"
     }
   },
-  "updated_at": "2026-11-16T01:39:08"
+  "updated_at": "2026-11-17T04:22:32"
 }
